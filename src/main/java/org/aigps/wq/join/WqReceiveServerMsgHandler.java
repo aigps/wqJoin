@@ -5,12 +5,6 @@ import java.util.Observer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.gps.net.client.ym.YmRecMsgPool;
-import org.gps.util.ParseDate;
-import org.gps.ym.model.YmAccessMsg;
-import org.gps.ym.model.YmBinAccMsg;
-import org.gps.ym.model.YmBinGpsModel;
-import org.gps.ym.model.YmCmdModel;
 
 /**
  * @Title£º<Àà±êÌâ>
@@ -31,8 +25,8 @@ public class WqReceiveServerMsgHandler implements Observer {
 
 	public static void main(String[] args){
 		try {
-		long diffTime = ParseDate.getBetweenTime("090002", "090001", "HHmmss");
-		System.out.print(diffTime);
+			long diffTime = ParseDate.getBetweenTime("090002", "090001", "HHmmss");
+			System.out.print(diffTime);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
 		}

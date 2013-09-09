@@ -1,10 +1,10 @@
 
 package org.aigps.wq.model;
 
-import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.gps.util.ParseDate;
+import org.gps.util.common.DateUtil;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
@@ -29,7 +29,7 @@ public class StatusModel {
 		}
 		String time = status.getTime();
 		if (!NumberUtils.isNumber(time)) {
-			time = ParseDate.getNumberDate(time);
+			time = DateUtil.parseToNum(time);
 		}
 		return "0|UploadStatus|" + time + "|" + status.getResult();
 	}

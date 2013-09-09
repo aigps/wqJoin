@@ -68,6 +68,17 @@
 		  <artifactId>netty-all</artifactId>
 		  <version>4.0.7.Final</version> 
 		</dependency> 
+		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+			<version>1.4.4</version>
+		</dependency>
+		
+		  <dependency>
+		 	 <groupId>com.cmp</groupId>
+		   	 <artifactId>gps-util</artifactId>
+		    <version>0.0.1-SNAPSHOT</version>
+		  </dependency>
 		
 	</dependencies>
 </project>

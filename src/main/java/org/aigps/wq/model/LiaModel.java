@@ -4,13 +4,11 @@ package org.aigps.wq.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.gps.YmConstants;
-import org.gps.util.MathUtil;
-import org.gps.util.ParseDate;
+import org.gps.util.common.MathUtil;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 

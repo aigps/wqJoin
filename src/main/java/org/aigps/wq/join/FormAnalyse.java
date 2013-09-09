@@ -1,16 +1,17 @@
 package org.aigps.wq.join;
 
+import io.netty.handler.codec.http.multipart.Attribute;
+import io.netty.handler.codec.http.multipart.FileUpload;
+import io.netty.handler.codec.http.multipart.HttpPostRequestDecoder;
+import io.netty.handler.codec.http.multipart.InterfaceHttpData;
+import io.netty.handler.codec.http.multipart.InterfaceHttpData.HttpDataType;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URLDecoder;
 
-import org.gps.wq.model.Picture;
-import org.jboss.netty.handler.codec.http.multipart.Attribute;
-import org.jboss.netty.handler.codec.http.multipart.FileUpload;
-import org.jboss.netty.handler.codec.http.multipart.HttpPostRequestDecoder;
-import org.jboss.netty.handler.codec.http.multipart.InterfaceHttpData;
-import org.jboss.netty.handler.codec.http.multipart.InterfaceHttpData.HttpDataType;
+import org.aigps.wq.model.Picture;
 
 import com.thoughtworks.xstream.core.util.Base64Encoder;
 
