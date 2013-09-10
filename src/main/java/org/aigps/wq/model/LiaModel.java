@@ -4,10 +4,12 @@ package org.aigps.wq.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.aigps.wq.entity.GisPosition;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.gps.util.common.DateUtil;
 import org.gps.util.common.MathUtil;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
@@ -30,6 +32,46 @@ public class LiaModel {
 	}
 	public void setLia(Lia lia) {
 		this.lia = lia;
+	}
+	
+	public List<GisPosition> toGps(){
+		List<GisPosition> list = new ArrayList<GisPosition>();
+		List<Posinfo> ps = lia.getPosinfos();
+		if(ps == null || ps.isEmpty()){
+			return null;
+		}
+		String reqType = getReqType();//定位类型  01单次定位;02激活定位;03周期定位
+		for (Posinfo p : ps) {
+			String fixTime = getFixTime(p);//定位时间
+			if(fixTime == null){
+				continue;
+			}
+			String lat = StringUtils.isBlank(p.getLatitude()) ? "0" : p.getLatitude();
+			String lng = StringUtils.isBlank(p.getLongitude()) ? "0" : p.getLongitude();
+			String altitude = StringUtils.isBlank(p.getAltitude()) ? "0" : p.getAltitude();
+			String dire = StringUtils.isBlank(p.getDirection()) ? "0" : p.getDirection();
+			String speed = StringUtils.isBlank(p.getVelocity()) ? "0" : p.getVelocity();
+			String precision = StringUtils.isBlank(p.getPrecision()) ? "0" : p.getPrecision();
+			String fixMode = p.getFixmode();
+			
+			//规范数据长度
+			try{
+				GisPosition gisPos = new GisPosition();
+				gisPos.setRptTime(fixTime);
+				gisPos.setLon(MathUtil.setScale(Double.parseDouble(lng), 6));
+				gisPos.setLat(MathUtil.setScale(Double.parseDouble(lat), 6));
+				gisPos.setAltitude((int)Double.parseDouble(altitude));
+				gisPos.setDire((int)Double.parseDouble(dire));
+				gisPos.setSpeed((int)Double.parseDouble(speed));
+				gisPos.setPrecision((int)Double.parseDouble(precision));
+				gisPos.setTrigType(reqType);
+				gisPos.setGpsType(fixMode);
+				list.add(gisPos);
+			}catch(Exception e){
+				log.error(e.getMessage(),e);
+			}
+		}
+		return list;
 	}
 	
 	//将定位信息拼装成元码协议的数据链
@@ -68,32 +110,32 @@ public class LiaModel {
 			}
 			
 			StringBuilder ymData = new StringBuilder();
-			ymData.append("0|").append(YmConstants.DATA_SPLIT_CHAR).append(fixTime);
-			ymData.append(YmConstants.DATA_SPLIT_CHAR).append(lng);
-			ymData.append(YmConstants.DATA_SPLIT_CHAR).append(lat);
-			ymData.append(YmConstants.DATA_SPLIT_CHAR).append(speed);
-			ymData.append(YmConstants.DATA_SPLIT_CHAR).append(dire);
-			ymData.append(YmConstants.DATA_SPLIT_CHAR).append("");
-			ymData.append(YmConstants.DATA_SPLIT_CHAR).append("00000000");
-			ymData.append(YmConstants.DATA_SPLIT_CHAR).append("00000000");
-			ymData.append(YmConstants.DATA_SPLIT_CHAR).append("");
-			ymData.append(YmConstants.DATA_SPLIT_CHAR).append("");
-			ymData.append(YmConstants.DATA_SPLIT_CHAR).append("");
-			ymData.append(YmConstants.DATA_SPLIT_CHAR).append("");// 报警状态掩码
-			ymData.append(YmConstants.DATA_SPLIT_CHAR).append("");
-			ymData.append(YmConstants.DATA_SPLIT_CHAR).append("");
-			ymData.append(YmConstants.DATA_SPLIT_CHAR).append("");
-			ymData.append(YmConstants.DATA_SPLIT_CHAR).append("");
-			ymData.append(YmConstants.DATA_SPLIT_CHAR).append(altitude);// 高度
-			ymData.append(YmConstants.DATA_SPLIT_CHAR).append(reqType);
-			ymData.append(YmConstants.DATA_SPLIT_CHAR).append(precision);
-			ymData.append(YmConstants.DATA_SPLIT_CHAR).append("");
-			ymData.append(YmConstants.DATA_SPLIT_CHAR).append("");
-			ymData.append(YmConstants.DATA_SPLIT_CHAR).append("");
-			ymData.append(YmConstants.DATA_SPLIT_CHAR).append("");
-			ymData.append(YmConstants.DATA_SPLIT_CHAR).append(fixMode);// 定位类型 0 MSA，1 Google，2 GPS，3 GPSOne，4 Hybrid
-			ymData.append(YmConstants.DATA_SPLIT_CHAR).append("");
-			ymData.append(YmConstants.DATA_SPLIT_CHAR).append("");// 基站ID
+			ymData.append("0|").append("|").append(fixTime);
+			ymData.append("|").append(lng);
+			ymData.append("|").append(lat);
+			ymData.append("|").append(speed);
+			ymData.append("|").append(dire);
+			ymData.append("|").append("");
+			ymData.append("|").append("00000000");
+			ymData.append("|").append("00000000");
+			ymData.append("|").append("");
+			ymData.append("|").append("");
+			ymData.append("|").append("");
+			ymData.append("|").append("");// 报警状态掩码
+			ymData.append("|").append("");
+			ymData.append("|").append("");
+			ymData.append("|").append("");
+			ymData.append("|").append("");
+			ymData.append("|").append(altitude);// 高度
+			ymData.append("|").append(reqType);
+			ymData.append("|").append(precision);
+			ymData.append("|").append("");
+			ymData.append("|").append("");
+			ymData.append("|").append("");
+			ymData.append("|").append("");
+			ymData.append("|").append(fixMode);// 定位类型 0 MSA，1 Google，2 GPS，3 GPSOne，4 Hybrid
+			ymData.append("|").append("");
+			ymData.append("|").append("");// 基站ID
 
 			datas.add(ymData.toString());
 		}
@@ -108,9 +150,9 @@ public class LiaModel {
 		}
 		try{
 			if (!NumberUtils.isNumber(fixTime)) {
-				fixTime = ParseDate.getNumberDate(fixTime);
+				fixTime = DateUtil.parseToNum(fixTime);
 			}
-			return ParseDate.addTime(fixTime, "yyyyMMddHHmmss", 8*60*60);
+			return DateUtil.addTime(fixTime, "yyyyMMddHHmmss", 8*60*60);
 		}catch(Exception e){
 			log.error(e.getMessage(),e);
 			return null;

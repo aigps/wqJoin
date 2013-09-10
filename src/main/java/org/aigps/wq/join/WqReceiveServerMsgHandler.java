@@ -3,8 +3,11 @@ package org.aigps.wq.join;
 import java.util.Observable;
 import java.util.Observer;
 
+import org.aigps.wq.ClassIdMap;
+import org.aigps.wq.SmsClient;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.gps.util.common.DateUtil;
 
 /**
  * @Title：<类标题>
@@ -25,7 +28,7 @@ public class WqReceiveServerMsgHandler implements Observer {
 
 	public static void main(String[] args){
 		try {
-			long diffTime = ParseDate.getBetweenTime("090002", "090001", "HHmmss");
+			long diffTime = DateUtil.getBetweenTime("090002", "090001", "HHmmss");
 			System.out.print(diffTime);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
@@ -69,7 +72,7 @@ public class WqReceiveServerMsgHandler implements Observer {
 					String fixModel = params[4];//定位类型
 					String workWeekDays = params[5];//上班星期
 					String smsSender = params[6];//网关
-					long diffTime = ParseDate.getBetweenTime(startTime, endTime, "HHmmss");
+					long diffTime = DateUtil.getBetweenTime(startTime, endTime, "HHmmss");
 					if(diffTime <= 0){
 						diffTime = 24*60*60*1000 + diffTime;
 					}

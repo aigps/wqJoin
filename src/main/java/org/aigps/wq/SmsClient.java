@@ -1,4 +1,4 @@
-package org.aigps.wq.join;
+package org.aigps.wq;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.logging.Log;

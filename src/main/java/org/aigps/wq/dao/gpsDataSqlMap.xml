@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"
+    "http://java.plugbase.org/dtd/sql-map-config-2.dtd">
+<sqlMapConfig >
+    <settings useStatementNamespaces="true" lazyLoadingEnabled="true" />
+	<sqlMap resource="org/gps/db/ibatis/config/dc/DC_CHINA_AREA_SqlMap.xml" />
+	<sqlMap resource="org/gps/db/ibatis/config/dc/DC_GPS_HIS_SqlMap.xml" />
+	<sqlMap resource="org/gps/db/ibatis/config/dc/DC_GPS_REAL_SqlMap.xml" />
+	<sqlMap resource="org/gps/db/ibatis/config/dc/DC_RG_AREA_HIS_SqlMap.xml" />
+	<sqlMap resource="org/gps/db/ibatis/config/dc/DC_DAY_MILE_SqlMap.xml" />
+	<sqlMap resource="org/gps/db/ibatis/config/dc/DC_CMD_TRACE_SqlMap.xml" />
+</sqlMapConfig>
+

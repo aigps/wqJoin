@@ -1,5 +1,6 @@
 package org.aigps.wq.join;
 
+import org.aigps.wq.join.WqReceiveServerMsgHandler;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.gps.net.client.ym.YmNettyClient;

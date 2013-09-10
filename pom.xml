@@ -67,18 +67,22 @@
 		  <groupId>io.netty</groupId>
 		  <artifactId>netty-all</artifactId>
 		  <version>4.0.7.Final</version> 
-		</dependency> 
+		</dependency>
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
 			<artifactId>xstream</artifactId>
 			<version>1.4.4</version>
 		</dependency>
-		
-		  <dependency>
-		 	 <groupId>com.cmp</groupId>
-		   	 <artifactId>gps-util</artifactId>
-		    <version>0.0.1-SNAPSHOT</version>
-		  </dependency>
-		
+	
+		<dependency>
+			<groupId>com.cmp</groupId>
+			<artifactId>gps-util</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.ibatis</groupId>
+			<artifactId>ibatis-sqlmap</artifactId>
+			<version>2.3.4.726</version>
+		</dependency>
 	</dependencies>
 </project>

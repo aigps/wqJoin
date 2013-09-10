@@ -8,11 +8,15 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.aigps.wq.FormAnalyse;
+import org.aigps.wq.WqJoinContext;
+import org.aigps.wq.entity.GisPosition;
 import org.aigps.wq.model.LiaModel;
 import org.aigps.wq.model.LtaModel;
 import org.aigps.wq.model.MessageModel;
 import org.aigps.wq.model.Picture;
 import org.aigps.wq.model.StatusModel;
+import org.aigps.wq.service.WqGpsService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -78,7 +82,8 @@ public class WqJoinHttpService implements IHttpService {
 				xstream.processAnnotations(LiaModel.class);
 				LiaModel model = (LiaModel) xstream.fromXML(xmlString);
 				List<String> ymDatas = model.convertToYmData();
-				if(ymDatas == null || ymDatas.isEmpty()){
+				List<GisPosition> gpsList = model.toGps();
+				if(gpsList == null || gpsList.isEmpty()){
 					log.error("无定位信息XML:\n" + xmlString);
 					return xmlString;
 				}
@@ -87,12 +92,12 @@ public class WqJoinHttpService implements IHttpService {
 				Picture pic = model.getLia().getPicture();
 				
 				//上报定位信息
-				for(String data : ymDatas){
-					YmAccessMsg ymMsg = StringUtils.isBlank(phone) ? 
-							new YmAccessMsg("GPS", "IMSI", msId, data) :
-							new YmAccessMsg("GPS", "BJDX|"+msId, phone, data);
-					log.error("phone:" + phone + "  msId:" + msId + " data:"+data);
-					ChannelUtil.sendMsg(WqJoinContext.getYmNettyClient().getChannel(), ymMsg.toYmString().getBytes());
+				for(GisPosition gps : gpsList){
+					String tmnKey = StringUtils.isBlank(phone) ? msId : phone;
+					gps.setTmnKey(tmnKey);
+					//定位处理
+					WqGpsService service = WqJoinContext.getBean("wqGpsService", WqGpsService.class);
+					service.receiveGpsInfo(tmnKey, gps);
 				}
 				
 				//主动签到签退，发送状态
@@ -106,24 +111,6 @@ public class WqJoinHttpService implements IHttpService {
 					pic.setTime(model.getTime());
 					pic.setMsid(msId);
 					sendPicture(pic);
-//					
-//					String picData = pic.getData();
-//					List<String> list = new ArrayList<String>();
-//					int index = 0, length = picData.length();
-//					while(index+7000 < length){
-//						list.add(picData.substring(index,index+7000));
-//						index += 7000;
-//					}
-//					list.add(picData.substring(index));
-//					int packIndex = 1, totalPack = list.size();
-//					Channel cnel = WqJoinContext.getYmNettyClient().getChannel();
-//					for(String data:list){
-//						String picd =  "0|"+model.getTime()+"|0|"+packIndex+"|"+totalPack+"|"+data+"|"+pic.getDesc()+"|"+pic.getName();
-//						YmAccessMsg ymMsg = new YmAccessMsg("PIC", "IMSI", msId, picd);
-//			       	 	ChannelUtil.sendMsg(cnel, ymMsg.toYmString().getBytes());
-//						log.error("pic msId:" + model.getMsid()+" data:"+picd);
-//						packIndex++;
-//					}
 				}
 				
 				if(StringUtils.isNotBlank(model.getLia().getUserdata())){//手镯数据

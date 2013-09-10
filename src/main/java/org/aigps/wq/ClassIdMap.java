@@ -1,5 +1,5 @@
 
-package org.aigps.wq.join;
+package org.aigps.wq;
 
 import java.io.InputStream;
 import java.util.Properties;
