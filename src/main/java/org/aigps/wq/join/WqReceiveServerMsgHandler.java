@@ -87,19 +87,6 @@ public class WqReceiveServerMsgHandler implements Observer {
 				else if("CancelActiveLCS".equalsIgnoreCase(ymCmdModel.getCmdType())){//定位取消激活
 					SmsClient.sendSms(classId, phone, "04", "4", null, null, null,params[1]);
 				}
-//				else if("TimingInterval".equalsIgnoreCase(ymCmdModel.getCmdType())){//定时监控
-//					String action = params[0];
-//					if(action.equalsIgnoreCase("2")){//取消
-//						SmsClient.sendSms(phone, "03", "4", null, null, null);
-//					}else if(action.equalsIgnoreCase("1")){//设置
-//						StringBuilder otherParams = new StringBuilder();
-//						otherParams.append("#0");//开始时间
-//						otherParams.append("#").append(params[1]);//定位间隔
-//						otherParams.append("#").append(params[2]);//定位次数
-//						otherParams.append("#1");//每次上报定位的个数
-//						SmsClient.sendSms(phone, "03", "2", params[3], "0", "");
-//					}
-//				}
 			} catch (Exception e) {
 				log.error(e.getMessage(),e);
 			}

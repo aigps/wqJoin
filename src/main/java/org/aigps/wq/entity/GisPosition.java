@@ -7,7 +7,7 @@ public class GisPosition implements Serializable{
 	 */
 	private static final long serialVersionUID = 3877679755390311347L;
 	//终端号
-	private String tmnKey;
+	private String phone;
 	
 	//
 	private String tmnAlias;
@@ -24,46 +24,36 @@ public class GisPosition implements Serializable{
 	private double dire;
 	//海拔
 	private double altitude;
-	//里程
-	private long mile;
 	//gsm信号
 	private int gsmSign;
 	//卫星信号
 	private int satlSign;
-	//状态
-	private String stts;
-	//报警状态
-	private String alarmStts;
-	//Io状态
-	private String ioStts;
-	//油量
-	private double oil;
-	//模拟量1
-	private long moniData1;
-	//模拟量2
-	private long moniData2;
 	//定位类型0 MSA，1 Google，2 GPS，3 GPSOne，4 Hybrid，5北斗，6GPS北斗兼容模式
 	private String gpsType;
 	//触发类型 00 普通定位,01点名,02激活,03周期, 97照片,98登签,99退签
 	private String trigType;
 	//地理描述
 	private String locDesc;
-	//部标扩展信息
-	private String bbExtInfo;
 	//基站ID
 	private String cellId;
-	//ACC开累计总时长
-	private long accTotalTime;
-	//ACC开时长
-	private long accCurTime;
-	//继电器状态
-	private String eleStts;
-	//精度
+		//精度
 	private int precision ;
-	
-	
-	
-	
+	//接收时间
+	private String serverTime;
+	//行政区域编号
+	private String zCode;
+	public String getzCode() {
+		return zCode;
+	}
+	public void setzCode(String zCode) {
+		this.zCode = zCode;
+	}
+	public String getServerTime() {
+		return serverTime;
+	}
+	public void setServerTime(String serverTime) {
+		this.serverTime = serverTime;
+	}
 	public String getTmnAlias() {
 		return tmnAlias;
 	}
@@ -119,12 +109,6 @@ public class GisPosition implements Serializable{
 	public void setAltitude(double altitude) {
 		this.altitude = altitude;
 	}
-	public long getMile() {
-		return mile;
-	}
-	public void setMile(long mile) {
-		this.mile = mile;
-	}
 	public int getGsmSign() {
 		return gsmSign;
 	}
@@ -137,42 +121,7 @@ public class GisPosition implements Serializable{
 	public void setSatlSign(int satlSign) {
 		this.satlSign = satlSign;
 	}
-	public String getStts() {
-		return stts;
-	}
-	public void setStts(String stts) {
-		this.stts = stts;
-	}
-	public String getAlarmStts() {
-		return alarmStts;
-	}
-	public void setAlarmStts(String alarmStts) {
-		this.alarmStts = alarmStts;
-	}
-	public String getIoStts() {
-		return ioStts;
-	}
-	public void setIoStts(String ioStts) {
-		this.ioStts = ioStts;
-	}
-	public double getOil() {
-		return oil;
-	}
-	public void setOil(double oil) {
-		this.oil = oil;
-	}
-	public long getMoniData1() {
-		return moniData1;
-	}
-	public void setMoniData1(long moniData1) {
-		this.moniData1 = moniData1;
-	}
-	public long getMoniData2() {
-		return moniData2;
-	}
-	public void setMoniData2(long moniData2) {
-		this.moniData2 = moniData2;
-	}
+	
 	public String getGpsType() {
 		return gpsType;
 	}
@@ -191,34 +140,11 @@ public class GisPosition implements Serializable{
 	public void setLocDesc(String locDesc) {
 		this.locDesc = locDesc;
 	}
-	public String getBbExtInfo() {
-		return bbExtInfo;
-	}
-	public void setBbExtInfo(String bbExtInfo) {
-		this.bbExtInfo = bbExtInfo;
-	}
+
 	public String getCellId() {
 		return cellId;
 	}
 	public void setCellId(String cellId) {
 		this.cellId = cellId;
-	}
-	public long getAccTotalTime() {
-		return accTotalTime;
-	}
-	public void setAccTotalTime(long accTotalTime) {
-		this.accTotalTime = accTotalTime;
-	}
-	public long getAccCurTime() {
-		return accCurTime;
-	}
-	public void setAccCurTime(long accCurTime) {
-		this.accCurTime = accCurTime;
-	}
-	public String getEleStts() {
-		return eleStts;
-	}
-	public void setEleStts(String eleStts) {
-		this.eleStts = eleStts;
 	}
 }

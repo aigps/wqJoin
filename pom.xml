@@ -84,5 +84,11 @@
 			<artifactId>ibatis-sqlmap</artifactId>
 			<version>2.3.4.726</version>
 		</dependency>
+		
+		<dependency>
+		 	 <groupId>com.cmp</groupId>
+		   	 <artifactId>gps-map</artifactId>
+		    <version>0.0.1-SNAPSHOT</version>
+	 	</dependency>
 	</dependencies>
 </project>

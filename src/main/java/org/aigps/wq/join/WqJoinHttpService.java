@@ -1,5 +1,13 @@
 package org.aigps.wq.join;
 
+import io.netty.channel.Channel;
+import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.multipart.DefaultHttpDataFactory;
+import io.netty.handler.codec.http.multipart.DiskAttribute;
+import io.netty.handler.codec.http.multipart.DiskFileUpload;
+import io.netty.handler.codec.http.multipart.HttpDataFactory;
+import io.netty.handler.codec.http.multipart.HttpPostRequestDecoder;
+
 import java.net.SocketAddress;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,13 +30,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.gps.util.netty.ChannelUtil;
 import org.jboss.netty.buffer.ChannelBuffer;
-import org.jboss.netty.channel.Channel;
-import org.jboss.netty.handler.codec.http.HttpRequest;
-import org.jboss.netty.handler.codec.http.multipart.DefaultHttpDataFactory;
-import org.jboss.netty.handler.codec.http.multipart.DiskAttribute;
-import org.jboss.netty.handler.codec.http.multipart.DiskFileUpload;
-import org.jboss.netty.handler.codec.http.multipart.HttpDataFactory;
-import org.jboss.netty.handler.codec.http.multipart.HttpPostRequestDecoder;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -46,7 +47,7 @@ import com.thoughtworks.xstream.XStream;
  * Copyright：Copyright(C),1995-2011 浙IPC备09004804号
  * Company：杭州元码科技有限公司
  */
-public class WqJoinHttpService implements IHttpService {
+public class WqJoinHttpService  {
 	protected static final Log log = LogFactory.getLog(WqJoinHttpService.class);
 	
 	HttpDataFactory factory = new DefaultHttpDataFactory(DefaultHttpDataFactory.MINSIZE);
@@ -57,7 +58,6 @@ public class WqJoinHttpService implements IHttpService {
         DiskAttribute.baseDirectory = null; // system temp directory
     }
 	
-	@Override
 	public String execute(Channel channel, SocketAddress address, HttpRequest request) throws Exception {
 		
 		//判断是不是FORM提交上传图片
@@ -102,24 +102,23 @@ public class WqJoinHttpService implements IHttpService {
 				
 				//主动签到签退，发送状态
 				if(model.isSignIn() || model.isSignOut()){
-					String data =  "0|UploadStatus|"+model.getTime()+(model.isSignIn()?"|98":"|99");
-					YmAccessMsg ymMsg = new YmAccessMsg("CMD", "IMSI", msId, data);
-					log.error("status msId:" + model.getMsid()+" data:"+data);
-		       	 	ChannelUtil.sendMsg(WqJoinContext.getYmNettyClient().getChannel(), ymMsg.toYmString().getBytes());
+//					String data =  "0|UploadStatus|"+model.getTime()+(model.isSignIn()?"|98":"|99");
+//					YmAccessMsg ymMsg = new YmAccessMsg("CMD", "IMSI", msId, data);
+//					log.error("status msId:" + model.getMsid()+" data:"+data);
+//		       	 	ChannelUtil.sendMsg(WqJoinContext.getYmNettyClient().getChannel(), ymMsg.toYmString().getBytes());
 				}else if(model.isPicture() && pic!=null){//拍照
-					
 					pic.setTime(model.getTime());
 					pic.setMsid(msId);
 					sendPicture(pic);
 				}
 				
 				if(StringUtils.isNotBlank(model.getLia().getUserdata())){//手镯数据
-					String data =  "0|WqAlarm|"+model.getTime()+"|"+model.getLia().getUserdata();
-					YmAccessMsg ymMsg = StringUtils.isBlank(phone) ? 
-							new YmAccessMsg("CMD", "IMSI", msId, data) :
-							new YmAccessMsg("CMD", "BJDX|"+msId, phone, data);
-					log.error("userdata msId:" + model.getMsid()+" data:"+data);
-		       	 	ChannelUtil.sendMsg(WqJoinContext.getYmNettyClient().getChannel(), ymMsg.toYmString().getBytes());
+//					String data =  "0|WqAlarm|"+model.getTime()+"|"+model.getLia().getUserdata();
+//					YmAccessMsg ymMsg = StringUtils.isBlank(phone) ? 
+//							new YmAccessMsg("CMD", "IMSI", msId, data) :
+//							new YmAccessMsg("CMD", "BJDX|"+msId, phone, data);
+//					log.error("userdata msId:" + model.getMsid()+" data:"+data);
+//		       	 	ChannelUtil.sendMsg(WqJoinContext.getYmNettyClient().getChannel(), ymMsg.toYmString().getBytes());
 				}
 			}
 			else if(xmlString.indexOf("<lta>") != -1){//立即应答消息
@@ -134,10 +133,10 @@ public class WqJoinHttpService implements IHttpService {
 	        	log.error("有LTA信息XML:\n" + xmlString);
 				log.error("lta phone:" + phone + " msId:" + msId + " data:"+ymData);
 	        	
-				YmAccessMsg ymMsg = StringUtils.isBlank(phone) ? 
-						new YmAccessMsg("CMD_RESP", "IMSI", msId, ymData) :
-						new YmAccessMsg("CMD_RESP", "BJDX|"+msId, phone, ymData); 
-	        	ChannelUtil.sendMsg(WqJoinContext.getYmNettyClient().getChannel(), ymMsg.toYmString().getBytes());
+//				YmAccessMsg ymMsg = StringUtils.isBlank(phone) ? 
+//						new YmAccessMsg("CMD_RESP", "IMSI", msId, ymData) :
+//						new YmAccessMsg("CMD_RESP", "BJDX|"+msId, phone, ymData); 
+//	        	ChannelUtil.sendMsg(WqJoinContext.getYmNettyClient().getChannel(), ymMsg.toYmString().getBytes());
 			}
 			else if(xmlString.indexOf("<status>")!=-1){//手机状态消息
 				xstream.processAnnotations(StatusModel.class);
@@ -148,9 +147,9 @@ public class WqJoinHttpService implements IHttpService {
 					return xmlString;
 				}
 				log.error("有STATUS信息XML:\n" + xmlString);
-				YmAccessMsg ymMsg = new YmAccessMsg("CMD", "IMSI", model.getMsid(), ymData);
-				log.error("status msId:" + model.getMsid()+" data:"+ymData);
-	       	 	ChannelUtil.sendMsg(WqJoinContext.getYmNettyClient().getChannel(), ymMsg.toYmString().getBytes());
+//				YmAccessMsg ymMsg = new YmAccessMsg("CMD", "IMSI", model.getMsid(), ymData);
+//				log.error("status msId:" + model.getMsid()+" data:"+ymData);
+//	       	 	ChannelUtil.sendMsg(WqJoinContext.getYmNettyClient().getChannel(), ymMsg.toYmString().getBytes());
 			}
 			else if(xmlString.indexOf("<messages>")!=-1){//上报短消息
 				xstream.processAnnotations(MessageModel.class);
@@ -161,9 +160,9 @@ public class WqJoinHttpService implements IHttpService {
 					return xmlString;
 				}
 				log.error("有MESSAGES信息XML:\n" + xmlString);
-				YmAccessMsg ymMsg = new YmAccessMsg("CMD", "IMSI", model.getMsid(), ymData);
-				log.error("messages  msId:" + model.getMsid()+" data:"+ymData);
-	       	 	ChannelUtil.sendMsg(WqJoinContext.getYmNettyClient().getChannel(), ymMsg.toYmString().getBytes());
+//				YmAccessMsg ymMsg = new YmAccessMsg("CMD", "IMSI", model.getMsid(), ymData);
+//				log.error("messages  msId:" + model.getMsid()+" data:"+ymData);
+//	       	 	ChannelUtil.sendMsg(WqJoinContext.getYmNettyClient().getChannel(), ymMsg.toYmString().getBytes());
 			}
 			else if(xmlString.indexOf("<net_test>")!=-1){//测试网络是否连接
 				log.error("测试网络连接:\n" + xmlString);
@@ -203,15 +202,15 @@ public class WqJoinHttpService implements IHttpService {
 		}
 		list.add(picData.substring(index));
 		int packIndex = 1, totalPack = list.size();
-		Channel cnel = WqJoinContext.getYmNettyClient().getChannel();
-		for(String data:list){
-			String picd =  "0|"+pic.getTime()+"|0|"+packIndex+"|"+totalPack+"|"+data+"|"+pic.getDesc()+"|"+pic.getName();
-			YmAccessMsg ymMsg = new YmAccessMsg("PIC", "IMSI", pic.getMsid(), picd);
-       	 	ChannelUtil.sendMsg(cnel, ymMsg.toYmString().getBytes());
-       	 	log.error("pic index:"+packIndex);
-			packIndex++;
-			Thread.sleep(10);
-		}
+//		Channel cnel = WqJoinContext.getYmNettyClient().getChannel();
+//		for(String data:list){
+//			String picd =  "0|"+pic.getTime()+"|0|"+packIndex+"|"+totalPack+"|"+data+"|"+pic.getDesc()+"|"+pic.getName();
+//			YmAccessMsg ymMsg = new YmAccessMsg("PIC", "IMSI", pic.getMsid(), picd);
+//       	 	ChannelUtil.sendMsg(cnel, ymMsg.toYmString().getBytes());
+//       	 	log.error("pic index:"+packIndex);
+//			packIndex++;
+//			Thread.sleep(10);
+//		}
 	}
 
 	public static String getEndTime(String startTime,int interval,int times) throws Exception{
