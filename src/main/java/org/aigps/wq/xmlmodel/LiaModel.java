@@ -1,5 +1,5 @@
 
-package org.aigps.wq.model;
+package org.aigps.wq.xmlmodel;
 
 import java.util.ArrayList;
 import java.util.List;

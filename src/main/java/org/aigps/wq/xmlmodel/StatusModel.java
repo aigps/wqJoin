@@ -1,5 +1,5 @@
 
-package org.aigps.wq.model;
+package org.aigps.wq.xmlmodel;
 
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.logging.Log;

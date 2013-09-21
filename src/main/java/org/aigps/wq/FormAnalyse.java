@@ -11,7 +11,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URLDecoder;
 
-import org.aigps.wq.model.Picture;
+import org.aigps.wq.xmlmodel.Picture;
 
 import com.thoughtworks.xstream.core.util.Base64Encoder;
 

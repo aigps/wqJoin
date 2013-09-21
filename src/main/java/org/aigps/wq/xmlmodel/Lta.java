@@ -1,5 +1,5 @@
 
-package org.aigps.wq.model;
+package org.aigps.wq.xmlmodel;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 

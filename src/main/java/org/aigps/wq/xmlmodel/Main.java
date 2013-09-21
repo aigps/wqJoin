@@ -1,4 +1,4 @@
-package org.aigps.wq.model;
+package org.aigps.wq.xmlmodel;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

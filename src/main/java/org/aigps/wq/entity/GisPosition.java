@@ -7,7 +7,7 @@ public class GisPosition implements Serializable{
 	 */
 	private static final long serialVersionUID = 3877679755390311347L;
 	//÷’∂À∫≈
-	private String phone;
+	private String tmnKey;
 	
 	//
 	private String tmnAlias;

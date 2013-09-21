@@ -2,7 +2,9 @@ package org.aigps.wq.service;
 
 import org.aigps.wq.DcGpsCache;
 import org.aigps.wq.entity.GisPosition;
-import org.aigps.wq.task.job.ParseGpsLocDescJob;
+import org.aigps.wq.mq.MqMsg;
+import org.aigps.wq.mq.WqJoinMqService;
+import org.aigps.wq.util.DistrictUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.gps.util.common.DateUtil;
@@ -64,26 +66,20 @@ public class WqGpsService {
 					gisPos.setLon(preGps.getLon());
 					gisPos.setLat(preGps.getLat());
 					gisPos.setzCode(preGps.getzCode());
-					gisPos.setMile(preGps.getMile());
 				}
 			}
-			/**
-			 * 更新里程的计算
-			 * 
-			 *   (待确认是否需要)
-			 */
 			
-
 			//更新行政区域
 			DcGpsCache.updateDcRgAreaHis(preGps,gisPos);
 			//更新最后定位
 			DcGpsCache.updateLastGps(tmnCode, gisPos);
-			/**
-			 * 地理描述(一定得先更新了内存的定位后再调用更新地理描述，其内部是调用了内存的定位信息)
-			 */
 			
-			DcGpsCache.inCreLastGpsReport.put(tmnCode, gisPos);
+			//增量定位信息
 			DcGpsCache.gpsReportMinuCache.add(gisPos);
+			
+			MqMsg mqMsg = new MqMsg(tmnCode, "WQ", 0, "GPS","RPT");
+			mqMsg.setData(gisPos);
+			WqJoinMqService.addMsg(mqMsg);
 		}else{//不能纠正的定位，丢弃掉，不处理
 			
 		}

@@ -33,8 +33,7 @@ public class WqJoinContext {
 	
 	public static void main(String[] args) {
 		try {
-			ClassIdMap.startup();
-			context = new ClassPathXmlApplicationContext(new String[]{"joinContext.xml"});
+			context = new ClassPathXmlApplicationContext(new String[]{"wqJoinContext.xml"});
 			while(true){
 				Thread.sleep(30*1000);
 			}

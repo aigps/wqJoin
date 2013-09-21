@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.gps.ym.model.YmAccessMsg;
 
 /**
  * 数据中心指令下发
@@ -41,14 +40,14 @@ public class DcCmdTrace implements Serializable{
     public DcCmdTrace() {
 
     }
-    public DcCmdTrace(String tmnCode,String tmnAlias,String actionType,String actionTime,String address,YmAccessMsg ymMsg)throws Exception{
+    public DcCmdTrace(String tmnCode,String tmnAlias,String actionType,String actionTime,String address,String cmdType,String cnt)throws Exception{
     	this.tmnAlias = tmnAlias;
     	this.tmnCode = tmnCode;
     	this.actionType = actionType;
     	this.actionTime = actionTime;
     	this.netAddr = address;
-    	this.cmdType = ymMsg.getDataType();
-    	this.cnt = ymMsg.toYmString();
+    	this.cmdType = cmdType;
+    	this.cnt = cnt;
     }
 
     public String getTmnCode() {

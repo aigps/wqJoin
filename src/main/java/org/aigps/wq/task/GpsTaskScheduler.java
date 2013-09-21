@@ -7,19 +7,14 @@ import java.io.InputStream;
 import java.util.Date;
 import java.util.Properties;
 
+import org.aigps.wq.task.job.DbCmdTraceSaveJob;
+import org.aigps.wq.task.job.DbGpsHisSaveJob;
+import org.aigps.wq.task.job.DbGpsRealSaveJob;
+import org.aigps.wq.task.job.DbGpsZcodeSaveJob;
+import org.aigps.wq.task.job.ParseGpsLocDescJob;
+import org.aigps.wq.task.job.TmnSysIdRefreshJob;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.gps.cache.task.job.SysSecondTimeJob;
-import org.gps.protocol.task.job.CacheGpsZcodeSaveJob;
-import org.gps.protocol.task.job.DbCmdTraceSaveJob;
-import org.gps.protocol.task.job.DbGpsDayMileJob;
-import org.gps.protocol.task.job.DbGpsHisSaveJob;
-import org.gps.protocol.task.job.DbGpsRealSaveJob;
-import org.gps.protocol.task.job.DbGpsZcodeSaveJob;
-import org.gps.protocol.task.job.ParseGpsLocDescJob;
-import org.gps.protocol.task.job.CacheGpsHisSaveJob;
-import org.gps.protocol.task.job.CacheGpsRealSaveJob;
-import org.gps.protocol.task.job.TmnSysIdRefreshJob;
 import org.quartz.CronTrigger;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
@@ -66,18 +61,6 @@ public class GpsTaskScheduler {
 			init();
 			Date ft;
 			/**
-			 * 历史定位入缓存
-			 */
-			if("true".equalsIgnoreCase(config.getProperty("cacheGpsHisSaveJob"))){
-				JobDetail saveGpsHisJob = new JobDetail(CacheGpsHisSaveJob.ID,sched.getSchedulerName(),CacheGpsHisSaveJob.class);
-				CronTrigger saveGpsHisJobTrigger = new CronTrigger("cacheGpsHisSaveJobTrigger", sched.getSchedulerName(), CacheGpsHisSaveJob.ID, sched.getSchedulerName(),config.getProperty("cacheGpsHisSaveJobTrigger"));
-				sched.addJob(saveGpsHisJob, true);
-				ft = sched.scheduleJob(saveGpsHisJobTrigger);
-				log.info(saveGpsHisJob.getFullName() + " has been scheduled to run at: " + ft
-			        + " and repeat based on expression: "
-			        + saveGpsHisJobTrigger.getCronExpression());
-			}
-			/**
 			 * 历史定位入数据库
 			 */
 			if("true".equalsIgnoreCase(config.getProperty("dbGpsHisSaveJob"))){
@@ -88,18 +71,6 @@ public class GpsTaskScheduler {
 				log.info(dbGpsHisSaveJob.getFullName() + " has been scheduled to run at: " + ft
 			        + " and repeat based on expression: "
 			        + dbGpsHisSaveJobTrigger.getCronExpression());
-			}
-			/**
-			 * 实时定位入缓存
-			 */
-			if("true".equalsIgnoreCase(config.getProperty("cacheGpsRealSaveJob"))){
-				JobDetail saveGpsRealJob = new JobDetail(CacheGpsRealSaveJob.ID,sched.getSchedulerName(),CacheGpsRealSaveJob.class);
-				CronTrigger saveGpsRealJobTrigger = new CronTrigger("cacheGpsRealSaveJobTrigger", sched.getSchedulerName(), CacheGpsRealSaveJob.ID, sched.getSchedulerName(),config.getProperty("cacheGpsRealSaveJobTrigger"));
-				sched.addJob(saveGpsRealJob, true);
-				ft = sched.scheduleJob(saveGpsRealJobTrigger);
-				log.info(saveGpsRealJob.getFullName() + " has been scheduled to run at: " + ft
-			        + " and repeat based on expression: "
-			        + saveGpsRealJobTrigger.getCronExpression());
 			}
 			/**
 			 * 实时定位入数据库
@@ -126,18 +97,6 @@ public class GpsTaskScheduler {
 		        + parseGpsLocDescJobTrigger.getCronExpression());
 			}
 			/**
-			 * 保存GPS行政区域到缓存（全量实时及增量）
-			 */
-			if("true".equalsIgnoreCase(config.getProperty("cacheGpsZcodeSaveJob"))){
-				JobDetail cacheGpsZcodeSaveJob = new JobDetail(CacheGpsZcodeSaveJob.ID,sched.getSchedulerName(),CacheGpsZcodeSaveJob.class);
-				CronTrigger cacheGpsZcodeSaveJobTrigger = new CronTrigger("cacheGpsZcodeSaveJobTrigger", sched.getSchedulerName(), CacheGpsZcodeSaveJob.ID, sched.getSchedulerName(),config.getProperty("cacheGpsZcodeSaveJobTrigger"));
-				sched.addJob(cacheGpsZcodeSaveJob, true);
-				ft = sched.scheduleJob(cacheGpsZcodeSaveJobTrigger);
-				log.info(cacheGpsZcodeSaveJob.getFullName() + " has been scheduled to run at: " + ft
-		        + " and repeat based on expression: "
-		        + cacheGpsZcodeSaveJobTrigger.getCronExpression());
-			}
-			/**
 			 * 从缓存取增量GPS行政区域，并保存到数据库
 			 */
 			if("true".equalsIgnoreCase(config.getProperty("dbGpsZcodeSaveJob"))){
@@ -160,30 +119,6 @@ public class GpsTaskScheduler {
 				log.info(tmnSysIdRefreshJob.getFullName() + " has been scheduled to run at: " + ft
 		        + " and repeat based on expression: "
 		        + tmnSysIdRefreshJobTrigger.getCronExpression());
-			}
-			/**
-			 * 更新系统时间
-			 */
-			if("true".equalsIgnoreCase(config.getProperty("sysSecondTimeJob"))){
-				JobDetail sysSecondTimeJob = new JobDetail(SysSecondTimeJob.ID,sched.getSchedulerName(),SysSecondTimeJob.class);
-				CronTrigger sysSecondTimeJobTrigger = new CronTrigger("sysSecondTimeJobTrigger", sched.getSchedulerName(), SysSecondTimeJob.ID, sched.getSchedulerName(),config.getProperty("sysSecondTimeJobTrigger"));
-				sched.addJob(sysSecondTimeJob, true);
-				ft = sched.scheduleJob(sysSecondTimeJobTrigger);
-				log.info(sysSecondTimeJob.getFullName() + " has been scheduled to run at: " + ft
-		        + " and repeat based on expression: "
-		        + sysSecondTimeJobTrigger.getCronExpression());
-			}
-			/**
-			 * 统计每天当前里程及昨天日里程
-			 */
-			if("true".equalsIgnoreCase(config.getProperty("dbGpsDayMileJob"))){
-				JobDetail dbGpsDayMileJob = new JobDetail(DbGpsDayMileJob.ID,sched.getSchedulerName(),DbGpsDayMileJob.class);
-				CronTrigger dbGpsDayMileJobTrigger = new CronTrigger("dbGpsDayMileJobTrigger", sched.getSchedulerName(), DbGpsDayMileJob.ID, sched.getSchedulerName(),config.getProperty("dbGpsDayMileJobTrigger"));
-				sched.addJob(dbGpsDayMileJob, true);
-				ft = sched.scheduleJob(dbGpsDayMileJobTrigger);
-				log.info(dbGpsDayMileJob.getFullName() + " has been scheduled to run at: " + ft
-		        + " and repeat based on expression: "
-		        + dbGpsDayMileJobTrigger.getCronExpression());
 			}
 			/**
 			 * 过往指令入库
