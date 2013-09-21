@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"
+    "http://java.plugbase.org/dtd/sql-map-config-2.dtd">
+<sqlMapConfig >
+    <settings useStatementNamespaces="true" lazyLoadingEnabled="true" />
+	<sqlMap resource="org/gps/db/ibatis/config/wq/WQ_ALARM_INFO_SqlMap.xml" />
+	<sqlMap resource="org/gps/db/ibatis/config/wq/WQ_MAP_REGION_SqlMap.xml" />
+	<sqlMap resource="org/gps/db/ibatis/config/wq/WQ_REGION_VISIT_SqlMap.xml"/>
+	<sqlMap resource="org/gps/db/ibatis/config/wq/WQ_STAFF_INFO_SqlMap.xml"/>
+	<sqlMap resource="org/gps/db/ibatis/config/wq/WQ_REGION_VISIT_HIS_SqlMap.xml"/>
+	<sqlMap resource="org/gps/db/ibatis/config/wq/WQ_RULE_SqlMap.xml"/>
+	<sqlMap resource="org/gps/db/ibatis/config/wq/WQ_RETROSPECT_SqlMap.xml"/>
+	<sqlMap resource="org/gps/db/ibatis/config/wq/DC_GPS_HIS_SqlMap.xml" />
+	<sqlMap resource="org/gps/db/ibatis/config/wq/DC_GPS_REAL_SqlMap.xml" />
+	<sqlMap resource="org/gps/db/ibatis/config/wq/DC_RG_AREA_REAL_SqlMap.xml" />
+	<sqlMap resource="org/gps/db/ibatis/config/wq/DC_RG_AREA_HIS_SqlMap.xml" />
+	<sqlMap resource="org/gps/db/ibatis/config/wq/WQ_MOOD_SqlMap.xml" />
+	<sqlMap resource="org/gps/db/ibatis/config/wq/WQ_EMERGENCY_SqlMap.xml" />
+	<sqlMap resource="org/gps/db/ibatis/config/wq/WQ_TMN_STTS_HIS_SqlMap.xml" />
+</sqlMapConfig>
+

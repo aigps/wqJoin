@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="DC_CHINA_AREA">
+  <resultMap class="org.gps.model.dc.DcChinaArea" id="abatorgenerated_DcChinaAreaResult">
+    <result column="ZCODE" jdbcType="VARCHAR" property="zcode" />
+    <result column="PROV" jdbcType="VARCHAR" property="prov" />
+    <result column="CITY" jdbcType="VARCHAR" property="city" />
+    <result column="TOWN" jdbcType="VARCHAR" property="town" />
+    <result column="LONGITUDE" jdbcType="DECIMAL" property="longitude" />
+    <result column="LATITUDE" jdbcType="DECIMAL" property="latitude" />
+    <result column="LON_OFFSET" jdbcType="DECIMAL" property="lonOffset" />
+    <result column="LAT_OFFSET" jdbcType="DECIMAL" property="latOffset" />
+    <result column="SORT" jdbcType="DECIMAL" property="sort" />
+  </resultMap>
+  <select id="selectByPrimaryKey" parameterClass="org.gps.model.dc.DcChinaArea" resultMap="abatorgenerated_DcChinaAreaResult">
+    select * from DC_CHINA_AREA
+    where ZCODE = #zcode:VARCHAR#
+  </select>
+  <select id="selectAll" parameterClass="org.gps.model.dc.DcChinaArea" resultMap="abatorgenerated_DcChinaAreaResult">
+    select * from DC_CHINA_AREA
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterClass="org.gps.model.dc.DcChinaArea">
+    delete from DC_CHINA_AREA
+    where ZCODE = #zcode:VARCHAR#
+  </delete>
+  <insert id="insert" parameterClass="org.gps.model.dc.DcChinaArea">
+    insert into DC_CHINA_AREA (ZCODE, PROV, CITY, TOWN, LONGITUDE, LATITUDE, LON_OFFSET, LAT_OFFSET,
+      SORT)
+    values (#zcode:VARCHAR#, #prov:OTHER#, #city:OTHER#, #town:OTHER#, #longitude:DECIMAL#,
+      #latitude:DECIMAL#, #lonOffset:DECIMAL#, #latOffset:DECIMAL#, #sort:DECIMAL#)
+  </insert>
+  <update id="updateByPrimaryKey" parameterClass="org.gps.model.dc.DcChinaArea">
+    update DC_CHINA_AREA
+    set PROV = #prov:OTHER#,
+      CITY = #city:OTHER#,
+      TOWN = #town:OTHER#,
+      LONGITUDE = #longitude:DECIMAL#,
+      LATITUDE = #latitude:DECIMAL#,
+      LON_OFFSET = #lonOffset:DECIMAL#,
+      LAT_OFFSET = #latOffset:DECIMAL#,
+      SORT = #sort:DECIMAL#
+    where ZCODE = #zcode:VARCHAR#
+  </update>
+</sqlMap>

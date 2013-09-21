@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="WQ_RETROSPECT">
+  <resultMap class="org.gps.model.wq.WqRetrospect" id="ibatorgenerated_BaseResultMap">
+    <result column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="STAFF_ID" jdbcType="VARCHAR" property="staffId" />
+    <result column="REGION_IDS" jdbcType="VARCHAR" property="regionIds" />
+    <result column="START_TIME" jdbcType="VARCHAR" property="startTime" />
+    <result column="END_TIME" jdbcType="VARCHAR" property="endTime" />
+    <result column="STATE" jdbcType="VARCHAR" property="state" />
+    <result column="CREATE_TIME" jdbcType="VARCHAR" property="createTime" />
+    <result column="COMPANY_ID" jdbcType="VARCHAR" property="companyId" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+
+  <select id="selectByPrimaryKey" parameterClass="org.gps.model.wq.WqRetrospect" resultMap="ibatorgenerated_BaseResultMap">
+    select * from WQ_RETROSPECT
+    where ID = #id:VARCHAR#
+  </select>
+  
+  <select id="selectByState" parameterClass="org.gps.model.wq.WqRetrospect" resultMap="ibatorgenerated_BaseResultMap">
+    select * from WQ_RETROSPECT
+    where STATE = #state:VARCHAR#
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterClass="org.gps.model.wq.WqRetrospect">
+    delete from WQ_RETROSPECT
+    where ID = #id:VARCHAR#
+  </delete>
+  <insert id="insert" parameterClass="org.gps.model.wq.WqRetrospect">
+    insert into WQ_RETROSPECT (ID, STAFF_ID, REGION_IDS, START_TIME, END_TIME, STATE, CREATE_TIME,
+      COMPANY_ID, REMARK)
+    values (#id:VARCHAR#, #staffId:VARCHAR#, #regionIds:VARCHAR#, #startTime:VARCHAR#,
+      #endTime:VARCHAR#, #state:VARCHAR#, #createTime:VARCHAR#, #companyId:VARCHAR#,
+      #remark:VARCHAR#)
+  </insert>
+  <update id="updateState" parameterClass="org.gps.model.wq.WqRetrospect">
+    update WQ_RETROSPECT
+    set STATE = #state:VARCHAR#
+    where STATE = #oldState:VARCHAR#
+  </update> 
+  
+  <update id="updateByPrimaryKey" parameterClass="org.gps.model.wq.WqRetrospect">
+    update WQ_RETROSPECT
+    set STAFF_ID = #staffId:VARCHAR#,
+      REGION_IDS = #regionIds:VARCHAR#,
+      START_TIME = #startTime:VARCHAR#,
+      END_TIME = #endTime:VARCHAR#,
+      STATE = #state:VARCHAR#,
+      CREATE_TIME = #createTime:VARCHAR#,
+      COMPANY_ID = #companyId:VARCHAR#,
+      REMARK = #remark:VARCHAR#
+    where ID = #id:VARCHAR#
+  </update>
+</sqlMap>

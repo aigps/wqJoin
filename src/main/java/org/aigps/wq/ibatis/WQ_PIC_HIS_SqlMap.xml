@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="WQ_PIC_HIS" >
+  <resultMap id="abatorgenerated_WqPicRealResult" class="org.gps.model.wq.WqPic" >
+    <result column="STAFF_ID" property="staffId" jdbcType="VARCHAR" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="PIC_TIME" property="picTime" jdbcType="DECIMAL" />
+    <result column="PIC_DESC" property="picDesc" jdbcType="VARCHAR" />
+    <result column="PIC_NAME" property="picName" jdbcType="VARCHAR" />
+    <result column="PIC_DATA" property="picData" jdbcType="BLOB" />
+  </resultMap>
+  <insert id="insert" parameterClass="org.gps.model.wq.WqPic" >
+    insert into WQ_PIC_HIS (STAFF_ID, PHONE, PIC_TIME, PIC_DESC, PIC_NAME, PIC_DATA)
+    values (#staffId:VARCHAR#, #phone:VARCHAR#, #picTime:DECIMAL#, #picDesc:VARCHAR#,
+      #picName:VARCHAR#, #picData:BLOB#)
+  </insert>
+</sqlMap>

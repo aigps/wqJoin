@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="WQ_STAFF_INFO" >
+  <resultMap id="ibatorgenerated_BaseResultMap" class="org.gps.model.wq.WqStaffInfo" >
+    <result column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="STAFF_NO" property="staffNo" jdbcType="VARCHAR" />
+    <result column="DEP_ID" property="depId" jdbcType="VARCHAR" />
+    <result column="CN_NAME" property="cnName" jdbcType="VARCHAR" />
+    <result column="COMPANY_ID" property="companyId" jdbcType="VARCHAR" />
+    <result column="EN_NAME" property="enName" jdbcType="VARCHAR" />
+    <result column="STANDBY1" property="standby1" jdbcType="VARCHAR" />
+    <result column="MSID" property="msid" jdbcType="VARCHAR" />
+    <result column="MOBILE_NUMBER" property="mobileNumber" jdbcType="VARCHAR" />
+    <result column="STANDBY2" property="standby2" jdbcType="VARCHAR" />
+    <result column="CONTACT_NUMBER" property="contactNumber" jdbcType="VARCHAR" />
+    <result column="START_WORK_TIME" property="startWorkTime" jdbcType="VARCHAR" />
+    <result column="ACTIVATE_STATE" property="activateState" jdbcType="CHAR" />
+    <result column="END_WORK_TIME" property="endWorkTime" jdbcType="VARCHAR" />
+    <result column="IS_ENABLE" property="isEnable" jdbcType="CHAR" />
+    <result column="CREATER" property="creater" jdbcType="VARCHAR" />
+    <result column="WORK_WEEK_DAYS" property="workWeekDays" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="STANDBY3" property="standby3" jdbcType="VARCHAR" />
+    <result column="HOME_ADDRESS" property="homeAddress" jdbcType="VARCHAR" />
+    <result column="LOCATE_INTERVAL" property="locateInterval" jdbcType="DECIMAL" />
+    <result column="SIGN_IN_START_TIME" property="signInStartTime" jdbcType="VARCHAR" />
+    <result column="SIGN_IN_END_TIME" property="signInEndTime" jdbcType="VARCHAR" />
+    <result column="SIGN_OUT_START_TIME" property="signOutStartTime" jdbcType="VARCHAR" />
+    <result column="SIGN_OUT_END_TIME" property="signOutEndTime" jdbcType="VARCHAR" />
+    <result column="IS_COMPANY_SIGN_IN" property="isCompanySignIn" jdbcType="CHAR" />
+    <result column="IS_CLIENT_SIGN_IN" property="isClientSignIn" jdbcType="CHAR" />
+    <result column="IS_COMPANY_SIGN_OUT" property="isCompanySignOut" jdbcType="CHAR" />
+    <result column="IS_CLIENT_SIGN_OUT" property="isClientSignOut" jdbcType="CHAR" />
+  </resultMap>
+  <select id="selectByPrimaryKey" resultMap="ibatorgenerated_BaseResultMap" parameterClass="org.gps.model.wq.WqStaffInfo" >
+    select * from WQ_STAFF_INFO
+    where ID = #id:VARCHAR#  <![CDATA[ where is_enable = '1']]>
+  </select>
+  <select id="selectAll" resultMap="ibatorgenerated_BaseResultMap" parameterClass="org.gps.model.wq.WqStaffInfo" >
+    select * from WQ_STAFF_INFO  <![CDATA[ where is_enable = '1']]>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="org.gps.model.wq.WqStaffInfo" >
+    delete from WQ_STAFF_INFO
+    where ID = #id:VARCHAR#
+  </delete>
+  <insert id="insert" parameterClass="org.gps.model.wq.WqStaffInfo" >
+    insert into WQ_STAFF_INFO (ID, STAFF_NO, DEP_ID, CN_NAME, COMPANY_ID, EN_NAME, STANDBY1, MSID,
+      MOBILE_NUMBER, STANDBY2, CONTACT_NUMBER, START_WORK_TIME, ACTIVATE_STATE, END_WORK_TIME,
+      IS_ENABLE, CREATER, WORK_WEEK_DAYS, REMARK, STANDBY3, HOME_ADDRESS, LOCATE_INTERVAL,
+      SIGN_IN_START_TIME, SIGN_IN_END_TIME, SIGN_OUT_START_TIME, SIGN_OUT_END_TIME,
+      IS_COMPANY_SIGN_IN, IS_CLIENT_SIGN_IN, IS_COMPANY_SIGN_OUT, IS_CLIENT_SIGN_OUT)
+    values (#id:VARCHAR#, #staffNo:VARCHAR#, #depId:VARCHAR#, #cnName:VARCHAR#, #companyId:VARCHAR#,
+      #enName:VARCHAR#, #standby1:VARCHAR#, #msid:VARCHAR#, #mobileNumber:VARCHAR#,
+      #standby2:VARCHAR#, #contactNumber:VARCHAR#, #startWorkTime:VARCHAR#, #activateState:CHAR#,
+      #endWorkTime:VARCHAR#, #isEnable:CHAR#, #creater:VARCHAR#, #workWeekDays:VARCHAR#,
+      #remark:VARCHAR#, #standby3:VARCHAR#, #homeAddress:VARCHAR#, #locateInterval:DECIMAL#,
+      #signInStartTime:VARCHAR#, #signInEndTime:VARCHAR#,
+      #signOutStartTime:VARCHAR#, #signOutEndTime:VARCHAR#, #isCompanySignIn:CHAR#,
+      #isClientSignIn:CHAR#, #isCompanySignOut:CHAR#, #isClientSignOut:CHAR#)
+  </insert>
+  <update id="updateByPrimaryKey" parameterClass="org.gps.model.wq.WqStaffInfo" >
+    update WQ_STAFF_INFO
+    set STAFF_NO = #staffNo:VARCHAR#,
+      DEP_ID = #depId:VARCHAR#,
+      CN_NAME = #cnName:VARCHAR#,
+      COMPANY_ID = #companyId:VARCHAR#,
+      EN_NAME = #enName:VARCHAR#,
+      STANDBY1 = #standby1:VARCHAR#,
+      MSID = #msid:VARCHAR#,
+      MOBILE_NUMBER = #mobileNumber:VARCHAR#,
+      STANDBY2 = #standby2:VARCHAR#,
+      CONTACT_NUMBER = #contactNumber:VARCHAR#,
+      START_WORK_TIME = #startWorkTime:VARCHAR#,
+      ACTIVATE_STATE = #activateState:CHAR#,
+      END_WORK_TIME = #endWorkTime:VARCHAR#,
+      IS_ENABLE = #isEnable:CHAR#,
+      CREATER = #creater:VARCHAR#,
+      WORK_WEEK_DAYS = #workWeekDays:VARCHAR#,
+      REMARK = #remark:VARCHAR#,
+      STANDBY3 = #standby3:VARCHAR#,
+      HOME_ADDRESS = #homeAddress:VARCHAR#,
+      LOCATE_INTERVAL = #locateInterval:DECIMAL#,
+      SIGN_IN_START_TIME = #signInStartTime:VARCHAR#,
+      SIGN_IN_END_TIME = #signInEndTime:VARCHAR#,
+      SIGN_OUT_START_TIME = #signOutStartTime:VARCHAR#,
+      SIGN_OUT_END_TIME = #signOutEndTime:VARCHAR#,
+      IS_COMPANY_SIGN_IN = #isCompanySignIn:CHAR#,
+      IS_CLIENT_SIGN_IN = #isClientSignIn:CHAR#,
+      IS_COMPANY_SIGN_OUT = #isCompanySignOut:CHAR#,
+      IS_CLIENT_SIGN_OUT = #isClientSignOut:CHAR#
+    where ID = #id:VARCHAR#
+  </update>
+</sqlMap>

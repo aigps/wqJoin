@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="WQ_RULE" >
+  <resultMap id="ibatorgenerated_BaseResultMap" class="org.gps.model.wq.WqRule" >
+    <result column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="ELE_FENCE_ID" property="eleFenceId" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="STANDBY1" property="standby1" jdbcType="VARCHAR" />
+    <result column="START_DATE" property="startDate" jdbcType="VARCHAR" />
+    <result column="END_DATE" property="endDate" jdbcType="VARCHAR" />
+    <result column="STANDBY2" property="standby2" jdbcType="VARCHAR" />
+    <result column="START_TIME" property="startTime" jdbcType="VARCHAR" />
+    <result column="END_TIME" property="endTime" jdbcType="VARCHAR" />
+    <result column="WEEK_DAYS" property="weekDays" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="COMPANY_ID" property="companyId" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATER" property="creater" jdbcType="VARCHAR" />
+    <result column="MONITOR_PHONE2" property="monitorPhone2" jdbcType="VARCHAR" />
+    <result column="MONITOR_PHONE1" property="monitorPhone1" jdbcType="VARCHAR" />
+    <result column="IS_ENABLE" property="isEnable" jdbcType="CHAR" />
+    <result column="STANDBY3" property="standby3" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectAll" resultMap="ibatorgenerated_BaseResultMap">
+    select * from WQ_RULE
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ibatorgenerated_BaseResultMap" parameterClass="org.gps.model.wq.WqRule" >
+    select * from WQ_RULE
+    where ID = #id:VARCHAR#
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="org.gps.model.wq.WqRule" >
+    delete from WQ_RULE
+    where ID = #id:VARCHAR#
+  </delete>
+  <insert id="insert" parameterClass="org.gps.model.wq.WqRule" >
+    insert into WQ_RULE (ID, ELE_FENCE_ID, NAME, STANDBY1, START_DATE, END_DATE, STANDBY2,
+      START_TIME, END_TIME, WEEK_DAYS, TYPE, COMPANY_ID, REMARK, CREATER,
+      MONITOR_PHONE2, MONITOR_PHONE1, IS_ENABLE, STANDBY3)
+    values (#id:VARCHAR#, #eleFenceId:VARCHAR#, #name:VARCHAR#, #standby1:VARCHAR#,
+      #startDate:VARCHAR#, #endDate:VARCHAR#, #standby2:VARCHAR#, #startTime:VARCHAR#,
+      #endTime:VARCHAR#, #weekDays:VARCHAR#, #type:VARCHAR#, #companyId:VARCHAR#,
+      #remark:VARCHAR#, #creater:VARCHAR#, #monitorPhone2:VARCHAR#, #monitorPhone1:VARCHAR#,
+      #isEnable:CHAR#, #standby3:VARCHAR#)
+  </insert>
+  <update id="updateByPrimaryKey" parameterClass="org.gps.model.wq.WqRule" >
+    update WQ_RULE
+    set ELE_FENCE_ID = #eleFenceId:VARCHAR#,
+      NAME = #name:VARCHAR#,
+      STANDBY1 = #standby1:VARCHAR#,
+      START_DATE = #startDate:VARCHAR#,
+      END_DATE = #endDate:VARCHAR#,
+      STANDBY2 = #standby2:VARCHAR#,
+      START_TIME = #startTime:VARCHAR#,
+      END_TIME = #endTime:VARCHAR#,
+      WEEK_DAYS = #weekDays:VARCHAR#,
+      TYPE = #type:VARCHAR#,
+      COMPANY_ID = #companyId:VARCHAR#,
+      REMARK = #remark:VARCHAR#,
+      CREATER = #creater:VARCHAR#,
+      MONITOR_PHONE2 = #monitorPhone2:VARCHAR#,
+      MONITOR_PHONE1 = #monitorPhone1:VARCHAR#,
+      IS_ENABLE = #isEnable:CHAR#,
+      STANDBY3 = #standby3:VARCHAR#
+    where ID = #id:VARCHAR#
+  </update>
+</sqlMap>

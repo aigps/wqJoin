@@ -18,13 +18,22 @@
 		</property>
 	</bean>	
 	
-	<!-- 转换成协议发给服务器 -->
-	<bean id="ymClient" class="org.gps.net.client.ym.YmNettyClient">
-		<constructor-arg index="0"  value="${wq.server.ip}"></constructor-arg>
-		<constructor-arg index="1"  value="${wq.server.port}"></constructor-arg>
-		<constructor-arg index="2"  value="${wq.client.username}"></constructor-arg>
-		<constructor-arg index="3"  value="${wq.client.pwd}"></constructor-arg>
-	</bean>
+	<bean id="admDataSource" class="org.apache.commons.dbcp.BasicDataSource" depends-on="dbParameter" destroy-method="close" lazy-init="true">
+		<property name="driverClassName" value="${db.driverName}"/>
+		<property name="url" value="${db.url}" />
+		<property name="username" value="${db.username}"/>
+		<property name="password" value="${db.password}"/>
+		<property name="validationQuery" value="select 'db' from dual"/>
+        <property name="initialSize" value="5"/>
+		<property name="maxActive" value="30"/>
+	    <property name="minIdle" value="5"/>
+	    <property name="maxIdle" value="10"/>
+	    <property name="maxWait" value="3000"/>
+	    <property name="timeBetweenEvictionRunsMillis" value="30000" />
+	    <property name="minEvictableIdleTimeMillis" value="60000" />
+		<property name="removeAbandoned" value="true"/>
+		<property name="removeAbandonedTimeout" value="180"/>
+	</bean> 
 	
 	<bean id="httpService" class="org.gps.wq.join.WqJoinHttpService"/>
  	
@@ -43,5 +52,13 @@
  		<property name="dxSmsUrl" value="${dx.sms.url}"></property>
  		<property name="ltSmsUrl" value="${lt.sms.url}"></property>
  	</bean>
-
+ 	
+ 	<!-- ibatis配置 -->
+	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+        <property name="configLocation">
+            <value>classpath:org/gps/db/ibatis/sqlMapConfig.xml</value>
+        </property>
+        <property name="dataSource" ref="admDataSource" />
+    </bean>
+    
 </beans>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="DC_CMD_TRACE">
+  <resultMap class="org.gps.model.dc.DcCmdTrace" id="ibatorgenerated_BaseResultMap">
+    <result column="ACTION_TIME" jdbcType="VARCHAR" property="actionTime" />
+    <result column="TMN_CODE" jdbcType="VARCHAR" property="tmnCode" />
+    <result column="TMN_ALIAS" jdbcType="VARCHAR" property="tmnAlias" />
+    <result column="ACTION_TYPE" jdbcType="VARCHAR" property="actionType" />
+    <result column="CMD_TYPE" jdbcType="VARCHAR" property="cmdType" />
+    <result column="CNT" jdbcType="VARCHAR" property="cnt" />
+    <result column="NET_ADDR" jdbcType="VARCHAR" property="netAddr" />
+  </resultMap>
+  <select id="selectByPrimaryKey" parameterClass="org.gps.model.dc.DcCmdTrace" resultMap="ibatorgenerated_BaseResultMap">
+    select ACTION_TIME, TMN_CODE, TMN_ALIAS, ACTION_TYPE, CMD_TYPE, CNT, NET_ADDR
+    from DC_CMD_TRACE
+    where ACTION_TIME = #actionTime:VARCHAR#
+      and TMN_CODE = #tmnCode:VARCHAR#
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="org.gps.model.dc.DcCmdTrace">
+    delete from DC_CMD_TRACE
+    where ACTION_TIME = #actionTime:VARCHAR#
+      and TMN_CODE = #tmnCode:VARCHAR#
+  </delete>
+  <insert id="insert" parameterClass="org.gps.model.dc.DcCmdTrace">
+    insert into DC_CMD_TRACE (ACTION_TIME, TMN_CODE, TMN_ALIAS, ACTION_TYPE, CMD_TYPE, CNT,
+      NET_ADDR)
+    values (#actionTime:VARCHAR#, #tmnCode:VARCHAR#, #tmnAlias:VARCHAR#, #actionType:VARCHAR#,
+      #cmdType:VARCHAR#, #cnt:VARCHAR#, #netAddr:VARCHAR#)
+  </insert>
+  <insert id="insertSelective" parameterClass="org.gps.model.dc.DcCmdTrace">
+    insert into DC_CMD_TRACE
+    <dynamic prepend="(">
+      <isNotNull prepend="," property="actionTime">
+        ACTION_TIME
+      </isNotNull>
+      <isNotNull prepend="," property="tmnCode">
+        TMN_CODE
+      </isNotNull>
+      <isNotNull prepend="," property="tmnAlias">
+        TMN_ALIAS
+      </isNotNull>
+      <isNotNull prepend="," property="actionType">
+        ACTION_TYPE
+      </isNotNull>
+      <isNotNull prepend="," property="cmdType">
+        CMD_TYPE
+      </isNotNull>
+      <isNotNull prepend="," property="cnt">
+        CNT
+      </isNotNull>
+      <isNotNull prepend="," property="netAddr">
+        NET_ADDR
+      </isNotNull>
+      )
+    </dynamic>
+    values
+    <dynamic prepend="(">
+      <isNotNull prepend="," property="actionTime">
+        #actionTime:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="tmnCode">
+        #tmnCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="tmnAlias">
+        #tmnAlias:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="actionType">
+        #actionType:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="cmdType">
+        #cmdType:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="cnt">
+        #cnt:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="netAddr">
+        #netAddr:VARCHAR#
+      </isNotNull>
+      )
+    </dynamic>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterClass="org.gps.model.dc.DcCmdTrace">
+    update DC_CMD_TRACE
+    <dynamic prepend="set">
+      <isNotNull prepend="," property="tmnAlias">
+        TMN_ALIAS = #tmnAlias:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="actionType">
+        ACTION_TYPE = #actionType:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="cmdType">
+        CMD_TYPE = #cmdType:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="cnt">
+        CNT = #cnt:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="netAddr">
+        NET_ADDR = #netAddr:VARCHAR#
+      </isNotNull>
+    </dynamic>
+    where ACTION_TIME = #actionTime:VARCHAR#
+      and TMN_CODE = #tmnCode:VARCHAR#
+  </update>
+  <update id="updateByPrimaryKey" parameterClass="org.gps.model.dc.DcCmdTrace">
+    update DC_CMD_TRACE
+    set TMN_ALIAS = #tmnAlias:VARCHAR#,
+      ACTION_TYPE = #actionType:VARCHAR#,
+      CMD_TYPE = #cmdType:VARCHAR#,
+      CNT = #cnt:VARCHAR#,
+      NET_ADDR = #netAddr:VARCHAR#
+    where ACTION_TIME = #actionTime:VARCHAR#
+      and TMN_CODE = #tmnCode:VARCHAR#
+  </update>
+</sqlMap>

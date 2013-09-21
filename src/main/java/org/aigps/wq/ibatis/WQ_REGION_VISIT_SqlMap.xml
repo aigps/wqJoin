@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="WQ_REGION_VISIT" >
+  <resultMap id="ibatorgenerated_BaseResultMap" class="org.gps.model.wq.WqRegionVisit" >
+    <result column="STAFF_ID" property="staffId" jdbcType="VARCHAR" />
+    <result column="STANDBY1" property="standby1" jdbcType="VARCHAR" />
+    <result column="ENTER_TIME" property="enterTime" jdbcType="VARCHAR" />
+    <result column="REGION_ID" property="regionId" jdbcType="VARCHAR" />
+    <result column="LEAVE_TIME" property="leaveTime" jdbcType="VARCHAR" />
+    <result column="STAY_LONG" property="stayLong" jdbcType="DECIMAL" />
+    <result column="COMPANY_ID" property="companyId" jdbcType="VARCHAR" />
+    <result column="STANDBY2" property="standby2" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="STANDBY3" property="standby3" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectAll" resultMap="ibatorgenerated_BaseResultMap" parameterClass="org.gps.model.wq.WqRegionVisit" >
+    select * from WQ_REGION_VISIT
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ibatorgenerated_BaseResultMap" parameterClass="org.gps.model.wq.WqRegionVisit" >
+    select STAFF_ID, STANDBY1, ENTER_TIME, REGION_ID, LEAVE_TIME, STAY_LONG, COMPANY_ID, STANDBY2,
+      REMARK, STANDBY3
+    from WQ_REGION_VISIT
+    where STAFF_ID = #staffId:VARCHAR#
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="org.gps.model.wq.WqRegionVisit" >
+    delete from WQ_REGION_VISIT
+    where STAFF_ID = #staffId:VARCHAR# and REGION_ID = #regionId:VARCHAR#
+  </delete>
+  <insert id="insert" parameterClass="org.gps.model.wq.WqRegionVisit" >
+    insert into WQ_REGION_VISIT (STAFF_ID, STANDBY1, ENTER_TIME, REGION_ID, LEAVE_TIME, STAY_LONG,
+      COMPANY_ID, STANDBY2, REMARK, STANDBY3)
+    values (#staffId:VARCHAR#, #standby1:VARCHAR#, #enterTime:VARCHAR#, #regionId:VARCHAR#,
+      #leaveTime:VARCHAR#, #stayLong:DECIMAL#, #companyId:VARCHAR#, #standby2:VARCHAR#,
+      #remark:VARCHAR#, #standby3:VARCHAR#)
+  </insert>
+  <update id="updateByPrimaryKey" parameterClass="org.gps.model.wq.WqRegionVisit" >
+    update WQ_REGION_VISIT
+    set STANDBY1 = #standby1:VARCHAR#,
+      ENTER_TIME = #enterTime:VARCHAR#,
+      REGION_ID = #regionId:VARCHAR#,
+      LEAVE_TIME = #leaveTime:VARCHAR#,
+      STAY_LONG = #stayLong:DECIMAL#,
+      COMPANY_ID = #companyId:VARCHAR#,
+      STANDBY2 = #standby2:VARCHAR#,
+      REMARK = #remark:VARCHAR#,
+      STANDBY3 = #standby3:VARCHAR#
+    where STAFF_ID = #staffId:VARCHAR#
+  </update>
+</sqlMap>
