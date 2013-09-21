@@ -16,8 +16,27 @@ public class WqConfig {
 	public void setTmnSysIdSql(String tmnSysIdSql) {
 		this.tmnSysIdSql = tmnSysIdSql;
 	}
+	@Value("${http.server.port}")
+	private int httpPort;
+
+	public int getHttpPort() {
+		return httpPort;
+	}
+
+	public void setHttpPort(int httpPort) {
+		this.httpPort = httpPort;
+	}
 	
-	
+	@Value("${http.server.ip}")
+	private String httpIp;
+
+	public String getHttpIp() {
+		return httpIp;
+	}
+
+	public void setHttpIp(String httpIp) {
+		this.httpIp = httpIp;
+	}
 	
 	
 	

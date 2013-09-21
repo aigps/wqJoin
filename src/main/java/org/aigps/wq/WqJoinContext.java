@@ -1,7 +1,9 @@
 package org.aigps.wq;
 
+import org.aigps.wq.join.WqJoinHttpService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.gps.netty.netty4.server.HttpServer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -34,6 +36,9 @@ public class WqJoinContext {
 	public static void main(String[] args) {
 		try {
 			context = new ClassPathXmlApplicationContext(new String[]{"wqJoinContext.xml"});
+			WqConfig wqConfig = getBean("wqConfig", WqConfig.class);
+			HttpServer httpServer = new HttpServer(wqConfig.getHttpIp(), wqConfig.getHttpPort(), getBean("wqJoinHttpService", WqJoinHttpService.class));
+			httpServer.start();
 			while(true){
 				Thread.sleep(30*1000);
 			}

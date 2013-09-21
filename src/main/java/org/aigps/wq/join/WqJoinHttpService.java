@@ -1,14 +1,16 @@
 package org.aigps.wq.join;
 
-import io.netty.channel.Channel;
+import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.http.HttpContent;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.multipart.DefaultHttpDataFactory;
 import io.netty.handler.codec.http.multipart.DiskAttribute;
 import io.netty.handler.codec.http.multipart.DiskFileUpload;
 import io.netty.handler.codec.http.multipart.HttpDataFactory;
 import io.netty.handler.codec.http.multipart.HttpPostRequestDecoder;
+import io.netty.util.CharsetUtil;
 
-import java.net.SocketAddress;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,8 +30,8 @@ import org.aigps.wq.xmlmodel.StatusModel;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.gps.util.netty.ChannelUtil;
-import org.jboss.netty.buffer.ChannelBuffer;
+import org.gps.netty.netty4.server.http.IHttpService;
+import org.springframework.stereotype.Component;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -47,7 +49,8 @@ import com.thoughtworks.xstream.XStream;
  * Copyright：Copyright(C),1995-2011 浙IPC备09004804号
  * Company：杭州元码科技有限公司
  */
-public class WqJoinHttpService  {
+@Component
+public class WqJoinHttpService  implements IHttpService{
 	protected static final Log log = LogFactory.getLog(WqJoinHttpService.class);
 	
 	HttpDataFactory factory = new DefaultHttpDataFactory(DefaultHttpDataFactory.MINSIZE);
@@ -58,123 +61,125 @@ public class WqJoinHttpService  {
         DiskAttribute.baseDirectory = null; // system temp directory
     }
 	
-	public String execute(Channel channel, SocketAddress address, HttpRequest request) throws Exception {
-		
-		//判断是不是FORM提交上传图片
-		try{
-			HttpPostRequestDecoder decoder = new HttpPostRequestDecoder(factory, request);
-			if(decoder.isMultipart()){
-				Picture pic = FormAnalyse.analysePicture(decoder);
-				sendPicture(pic);
-				return "true";
-			}
-		} catch(Exception e){
-		}
-		
-		ChannelBuffer buffer = request.getContent();
-		byte[] msgByte = new byte[buffer.readableBytes()];
-		buffer.readBytes(msgByte);
-		String xmlString = convertXmlToLowerCase(new String(msgByte,"UTF-8"));
-		
-		XStream xstream = new XStream();
-		try{
-			if(xmlString.indexOf("<lia>") != -1){//定位信息回复
-				xstream.processAnnotations(LiaModel.class);
-				LiaModel model = (LiaModel) xstream.fromXML(xmlString);
-				List<String> ymDatas = model.convertToYmData();
-				List<GisPosition> gpsList = model.toGps();
-				if(gpsList == null || gpsList.isEmpty()){
-					log.error("无定位信息XML:\n" + xmlString);
-					return xmlString;
-				}
-				String phone = model.getPhone(), msId = model.getMsid();
-				log.error("有定位信息XML:\n" + xmlString);
-				Picture pic = model.getLia().getPicture();
-				
-				//上报定位信息
-				for(GisPosition gps : gpsList){
-					String tmnKey = StringUtils.isBlank(phone) ? msId : phone;
-					gps.setTmnKey(tmnKey);
-					//定位处理
-					WqGpsService service = WqJoinContext.getBean("wqGpsService", WqGpsService.class);
-					service.receiveGpsInfo(tmnKey, gps);
-				}
-				
-				//主动签到签退，发送状态
-				if(model.isSignIn() || model.isSignOut()){
-//					String data =  "0|UploadStatus|"+model.getTime()+(model.isSignIn()?"|98":"|99");
-//					YmAccessMsg ymMsg = new YmAccessMsg("CMD", "IMSI", msId, data);
-//					log.error("status msId:" + model.getMsid()+" data:"+data);
-//		       	 	ChannelUtil.sendMsg(WqJoinContext.getYmNettyClient().getChannel(), ymMsg.toYmString().getBytes());
-				}else if(model.isPicture() && pic!=null){//拍照
-					pic.setTime(model.getTime());
-					pic.setMsid(msId);
+	public String execute(ChannelHandlerContext ctx, Object request) throws Exception {
+		if(request  instanceof HttpRequest){
+			HttpRequest httpRequest = (HttpRequest)request;
+			//判断是不是FORM提交上传图片
+			try{
+				HttpPostRequestDecoder decoder = new HttpPostRequestDecoder(factory, httpRequest);
+				if(decoder.isMultipart()){
+					Picture pic = FormAnalyse.analysePicture(decoder);
 					sendPicture(pic);
+					return "true";
 				}
-				
-				if(StringUtils.isNotBlank(model.getLia().getUserdata())){//手镯数据
-//					String data =  "0|WqAlarm|"+model.getTime()+"|"+model.getLia().getUserdata();
-//					YmAccessMsg ymMsg = StringUtils.isBlank(phone) ? 
-//							new YmAccessMsg("CMD", "IMSI", msId, data) :
-//							new YmAccessMsg("CMD", "BJDX|"+msId, phone, data);
-//					log.error("userdata msId:" + model.getMsid()+" data:"+data);
-//		       	 	ChannelUtil.sendMsg(WqJoinContext.getYmNettyClient().getChannel(), ymMsg.toYmString().getBytes());
-				}
+			} catch(Exception e){
 			}
-			else if(xmlString.indexOf("<lta>") != -1){//立即应答消息
-				xstream.processAnnotations(LtaModel.class);
-				LtaModel model = (LtaModel) xstream.fromXML(xmlString);
-				String ymData = model.convertToYmData();
-				if(StringUtils.isBlank(ymData)){
-					log.error("无LTA信息XML:\n" + xmlString);
-					return xmlString;
-				}
-				String phone = model.getPhone(), msId = model.getMsid();
-	        	log.error("有LTA信息XML:\n" + xmlString);
-				log.error("lta phone:" + phone + " msId:" + msId + " data:"+ymData);
-	        	
-//				YmAccessMsg ymMsg = StringUtils.isBlank(phone) ? 
-//						new YmAccessMsg("CMD_RESP", "IMSI", msId, ymData) :
-//						new YmAccessMsg("CMD_RESP", "BJDX|"+msId, phone, ymData); 
-//	        	ChannelUtil.sendMsg(WqJoinContext.getYmNettyClient().getChannel(), ymMsg.toYmString().getBytes());
-			}
-			else if(xmlString.indexOf("<status>")!=-1){//手机状态消息
-				xstream.processAnnotations(StatusModel.class);
-				StatusModel model = (StatusModel) xstream.fromXML(xmlString);
-				String ymData = model.convertToYmData();
-				if(StringUtils.isBlank(ymData)){
-					log.error("无STATUS信息XML:\n" + xmlString);
-					return xmlString;
-				}
-				log.error("有STATUS信息XML:\n" + xmlString);
-//				YmAccessMsg ymMsg = new YmAccessMsg("CMD", "IMSI", model.getMsid(), ymData);
-//				log.error("status msId:" + model.getMsid()+" data:"+ymData);
-//	       	 	ChannelUtil.sendMsg(WqJoinContext.getYmNettyClient().getChannel(), ymMsg.toYmString().getBytes());
-			}
-			else if(xmlString.indexOf("<messages>")!=-1){//上报短消息
-				xstream.processAnnotations(MessageModel.class);
-				MessageModel model = (MessageModel) xstream.fromXML(xmlString);
-				String ymData = model.convertToYmData();
-				if(StringUtils.isBlank(ymData)){
-					log.error("无MESSAGES信息XML:\n" + xmlString);
-					return xmlString;
-				}
-				log.error("有MESSAGES信息XML:\n" + xmlString);
-//				YmAccessMsg ymMsg = new YmAccessMsg("CMD", "IMSI", model.getMsid(), ymData);
-//				log.error("messages  msId:" + model.getMsid()+" data:"+ymData);
-//	       	 	ChannelUtil.sendMsg(WqJoinContext.getYmNettyClient().getChannel(), ymMsg.toYmString().getBytes());
-			}
-			else if(xmlString.indexOf("<net_test>")!=-1){//测试网络是否连接
-				log.error("测试网络连接:\n" + xmlString);
-			}
-			else{
-				log.error("未知结构XML:\n" + xmlString);
-			}
-		}catch(Exception e){
-			log.error("异常XML:\n" + xmlString);
-			log.error(e.getMessage(),e);
 		}
-		return xmlString;
+		if(request instanceof HttpContent){
+			HttpContent httpContent = (HttpContent) request;
+			ByteBuf content  = httpContent.content();
+			String xmlString = convertXmlToLowerCase(content.toString(CharsetUtil.UTF_8));
+			XStream xstream = new XStream();
+			try{
+				if(xmlString.indexOf("<lia>") != -1){//定位信息回复
+					xstream.processAnnotations(LiaModel.class);
+					LiaModel model = (LiaModel) xstream.fromXML(xmlString);
+					List<String> ymDatas = model.convertToYmData();
+					List<GisPosition> gpsList = model.toGps();
+					if(gpsList == null || gpsList.isEmpty()){
+						log.error("无定位信息XML:\n" + xmlString);
+						return xmlString;
+					}
+					String phone = model.getPhone(), msId = model.getMsid();
+					log.error("有定位信息XML:\n" + xmlString);
+					Picture pic = model.getLia().getPicture();
+					
+					//上报定位信息
+					for(GisPosition gps : gpsList){
+						String tmnKey = StringUtils.isBlank(phone) ? msId : phone;
+						gps.setTmnKey(tmnKey);
+						//定位处理
+						WqGpsService service = WqJoinContext.getBean("wqGpsService", WqGpsService.class);
+						service.receiveGpsInfo(tmnKey, gps);
+					}
+					
+					//主动签到签退，发送状态
+					if(model.isSignIn() || model.isSignOut()){
+	//					String data =  "0|UploadStatus|"+model.getTime()+(model.isSignIn()?"|98":"|99");
+	//					YmAccessMsg ymMsg = new YmAccessMsg("CMD", "IMSI", msId, data);
+	//					log.error("status msId:" + model.getMsid()+" data:"+data);
+	//		       	 	ChannelUtil.sendMsg(WqJoinContext.getYmNettyClient().getChannel(), ymMsg.toYmString().getBytes());
+					}else if(model.isPicture() && pic!=null){//拍照
+						pic.setTime(model.getTime());
+						pic.setMsid(msId);
+						sendPicture(pic);
+					}
+					
+					if(StringUtils.isNotBlank(model.getLia().getUserdata())){//手镯数据
+	//					String data =  "0|WqAlarm|"+model.getTime()+"|"+model.getLia().getUserdata();
+	//					YmAccessMsg ymMsg = StringUtils.isBlank(phone) ? 
+	//							new YmAccessMsg("CMD", "IMSI", msId, data) :
+	//							new YmAccessMsg("CMD", "BJDX|"+msId, phone, data);
+	//					log.error("userdata msId:" + model.getMsid()+" data:"+data);
+	//		       	 	ChannelUtil.sendMsg(WqJoinContext.getYmNettyClient().getChannel(), ymMsg.toYmString().getBytes());
+					}
+				}
+				else if(xmlString.indexOf("<lta>") != -1){//立即应答消息
+					xstream.processAnnotations(LtaModel.class);
+					LtaModel model = (LtaModel) xstream.fromXML(xmlString);
+					String ymData = model.convertToYmData();
+					if(StringUtils.isBlank(ymData)){
+						log.error("无LTA信息XML:\n" + xmlString);
+						return xmlString;
+					}
+					String phone = model.getPhone(), msId = model.getMsid();
+		        	log.error("有LTA信息XML:\n" + xmlString);
+					log.error("lta phone:" + phone + " msId:" + msId + " data:"+ymData);
+		        	
+	//				YmAccessMsg ymMsg = StringUtils.isBlank(phone) ? 
+	//						new YmAccessMsg("CMD_RESP", "IMSI", msId, ymData) :
+	//						new YmAccessMsg("CMD_RESP", "BJDX|"+msId, phone, ymData); 
+	//	        	ChannelUtil.sendMsg(WqJoinContext.getYmNettyClient().getChannel(), ymMsg.toYmString().getBytes());
+				}
+				else if(xmlString.indexOf("<status>")!=-1){//手机状态消息
+					xstream.processAnnotations(StatusModel.class);
+					StatusModel model = (StatusModel) xstream.fromXML(xmlString);
+					String ymData = model.convertToYmData();
+					if(StringUtils.isBlank(ymData)){
+						log.error("无STATUS信息XML:\n" + xmlString);
+						return xmlString;
+					}
+					log.error("有STATUS信息XML:\n" + xmlString);
+	//				YmAccessMsg ymMsg = new YmAccessMsg("CMD", "IMSI", model.getMsid(), ymData);
+	//				log.error("status msId:" + model.getMsid()+" data:"+ymData);
+	//	       	 	ChannelUtil.sendMsg(WqJoinContext.getYmNettyClient().getChannel(), ymMsg.toYmString().getBytes());
+				}
+				else if(xmlString.indexOf("<messages>")!=-1){//上报短消息
+					xstream.processAnnotations(MessageModel.class);
+					MessageModel model = (MessageModel) xstream.fromXML(xmlString);
+					String ymData = model.convertToYmData();
+					if(StringUtils.isBlank(ymData)){
+						log.error("无MESSAGES信息XML:\n" + xmlString);
+						return xmlString;
+					}
+					log.error("有MESSAGES信息XML:\n" + xmlString);
+	//				YmAccessMsg ymMsg = new YmAccessMsg("CMD", "IMSI", model.getMsid(), ymData);
+	//				log.error("messages  msId:" + model.getMsid()+" data:"+ymData);
+	//	       	 	ChannelUtil.sendMsg(WqJoinContext.getYmNettyClient().getChannel(), ymMsg.toYmString().getBytes());
+				}
+				else if(xmlString.indexOf("<net_test>")!=-1){//测试网络是否连接
+					log.error("测试网络连接:\n" + xmlString);
+				}
+				else{
+					log.error("未知结构XML:\n" + xmlString);
+				}
+			}catch(Exception e){
+				log.error("异常XML:\n" + xmlString);
+				log.error(e.getMessage(),e);
+			}
+			return xmlString;
+		}
+		return null;
 	}
 	
 	//将XML里的<XXXX>标签转成小写

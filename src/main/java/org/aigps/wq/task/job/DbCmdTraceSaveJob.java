@@ -3,7 +3,6 @@
  */
 package org.aigps.wq.task.job;
 
-import java.util.ArrayList;
 import java.util.Queue;
 
 import org.aigps.wq.DcGpsCache;
