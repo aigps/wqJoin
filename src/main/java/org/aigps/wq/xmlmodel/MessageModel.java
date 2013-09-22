@@ -39,6 +39,32 @@ public class MessageModel {
 		}
 		return "0|UploadSMS|"+type+"|"+new String(Base64.encodeBase64(msg.getBytes()));
 	}
+	
+	
+	public String getMsgType(){
+		if(messages == null){
+			return null;
+		}
+		//手机上报的消息类型，和元码协议类型相差1
+		int type = Integer.parseInt(messages.getType()) + 1;
+		return String.valueOf(type);
+	}
+	
+	public String getMsgCnt(){
+		if(messages == null){
+			return null;
+		}
+		String msg = messages.getMessage();
+		try{
+			log.error("before message = "+msg);
+			msg = new String(msg.getBytes(),"UTF-8");
+			log.error("after message = "+msg);
+		}catch(Exception e){
+			log.error(e.getMessage(),e);
+			return "";
+		}
+		return msg;
+	}
 
 	public String getMsid(){
 		try{

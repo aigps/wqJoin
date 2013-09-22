@@ -56,7 +56,7 @@
  	<!-- ibatis配置 -->
 	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
         <property name="configLocation">
-            <value>classpath:org/gps/db/ibatis/sqlMapConfig.xml</value>
+            <value>classpath:org/aigps/wq/ibatis/wqDataSqlMap.xml</value>
         </property>
         <property name="dataSource" ref="admDataSource" />
     </bean>

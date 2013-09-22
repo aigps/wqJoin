@@ -57,7 +57,7 @@ public class LtaModel {
 	}
 	
 	//获取响应的类型
-	private String getCmdType(){
+	public String getCmdType(){
 		String reqType = lta.getReq_id();//定位类型  01单次定位;02激活定位;03周期定位
 		if(reqType!=null && reqType.length()>3){
 			reqType = reqType.substring(3);
@@ -76,7 +76,7 @@ public class LtaModel {
 	}
 
 	//将手机的执行结果，转换成元码的执行结果
-	private String getYmResult(){
+	public String getYmResult(){
 		String result = lta.getResult();
 		//0:延迟定位设置成功 
 		//1:取消定位成功 

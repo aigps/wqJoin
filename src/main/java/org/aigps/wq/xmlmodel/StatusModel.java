@@ -43,6 +43,24 @@ public class StatusModel {
 		}
 	}
 	
+	public String getTime(){
+		if (status == null) {
+			return null;
+		}
+		String time = status.getTime();
+		if (!NumberUtils.isNumber(time)) {
+			time = DateUtil.parseToNum(time);
+		}
+		return time;
+	}
+	
+	public String getResult(){
+		if (status == null) {
+			return null;
+		}
+		return status.getResult();
+	}
+	
 	
 }
 

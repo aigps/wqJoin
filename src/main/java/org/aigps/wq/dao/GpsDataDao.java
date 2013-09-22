@@ -14,6 +14,7 @@ import java.util.Queue;
 import org.aigps.wq.entity.DcCmdTrace;
 import org.aigps.wq.entity.DcRgAreaHis;
 import org.aigps.wq.entity.GisPosition;
+import org.aigps.wq.ibatis.GpsDataIbatis;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

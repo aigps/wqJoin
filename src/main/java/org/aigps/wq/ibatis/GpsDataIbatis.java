@@ -1,4 +1,4 @@
-package org.aigps.wq.dao;
+package org.aigps.wq.ibatis;
 
 
 import org.apache.commons.logging.Log;

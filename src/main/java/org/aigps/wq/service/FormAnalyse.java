@@ -1,4 +1,4 @@
-package org.aigps.wq;
+package org.aigps.wq.service;
 
 import io.netty.handler.codec.http.multipart.Attribute;
 import io.netty.handler.codec.http.multipart.FileUpload;

@@ -26,46 +26,18 @@ import org.gps.util.common.DateUtil;
 public class WqReceiveServerMsgHandler implements Observer {
 	private static final Log log = LogFactory.getLog(WqReceiveServerMsgHandler.class);
 
-	public static void main(String[] args){
-		try {
-			long diffTime = DateUtil.getBetweenTime("090002", "090001", "HHmmss");
-			System.out.print(diffTime);
-		} catch (Exception e) {
-			log.error(e.getMessage(),e);
-		}
-	}
-	
-	@Override
 	public void update(Observable obs, Object args) {
-		if(!(obs instanceof YmRecMsgPool)){
-			return;
-		}
-		if(args instanceof byte[]){
-			byte[] msg = (byte[])args;
 			try {
-				log.info("msg-->"+new String(msg));
-				YmAccessMsg ymMsg = new YmAccessMsg(msg);
-				log.info("成功接收ym："+ymMsg.getDataType()+" 字节大小："+msg.length+" content:"+ymMsg.getData());
-			} catch (Exception e) {
-				log.error(e.getMessage(),e);
-			}
-		}else if(args instanceof YmAccessMsg){
-			YmAccessMsg ymMsg = (YmAccessMsg)args;
-			log.info("消息包长度:"+ymMsg.getMsgByte().length+" 内容："+new String(ymMsg.getMsgByte()));
-			if(!"CMD".equalsIgnoreCase(ymMsg.getDataType())){
-				return;
-			}
-			try {
-				YmCmdModel ymCmdModel = new YmCmdModel(ymMsg);
-				String phone = ymCmdModel.getYmAccessMsg().getDeviceCode();
-				String[] params = ymCmdModel.getCmdParams();
+				String cmdType = "";
+				String phone = "";
+				String[] params = null;
 				String mobileType = params[0];
 				String classId = ClassIdMap.getClassId(mobileType);
 				
-				if("LCSNow".equalsIgnoreCase(ymCmdModel.getCmdType())){//单次定位
+				if("LCSNow".equalsIgnoreCase(cmdType)){//单次定位
 					SmsClient.sendSms(classId, phone, "01", "1", params[1], "0", "#0",params[2]);
 				}
-				else if("ActiveLCS".equalsIgnoreCase(ymCmdModel.getCmdType())){//定位激活
+				else if("ActiveLCS".equalsIgnoreCase(cmdType)){//定位激活
 					int secondInterval = Integer.parseInt(params[1]);//定位间隔
 					String startTime = params[2];//开始时间
 					String endTime = params[3];//结束时间
@@ -84,26 +56,11 @@ public class WqReceiveServerMsgHandler implements Observer {
 					}
 					SmsClient.sendSms(classId, phone, "02", "3", fixModel, "0", otherParams,smsSender);
 				}
-				else if("CancelActiveLCS".equalsIgnoreCase(ymCmdModel.getCmdType())){//定位取消激活
+				else if("CancelActiveLCS".equalsIgnoreCase(cmdType)){//定位取消激活
 					SmsClient.sendSms(classId, phone, "04", "4", null, null, null,params[1]);
 				}
 			} catch (Exception e) {
 				log.error(e.getMessage(),e);
 			}
-		}
-		else if(args instanceof YmBinAccMsg){
-			try {
-				YmBinAccMsg ymBinMsg = (YmBinAccMsg)args;
-				String deviceCode = ymBinMsg.getDeviceCode();
-				if(ymBinMsg.getDataType().equals("GP")){//二进制定位信息
-					YmBinGpsModel ymBinGpsModel = new YmBinGpsModel(ymBinMsg);
-					log.info(deviceCode+"   收到二进制信息  "+" 包长:"+ymBinMsg.getSrcMsg().length+" 内容:"+ymBinGpsModel.toString());
-					ymBinGpsModel.getzCode();
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-			
 	}
 }
