@@ -18,6 +18,6 @@
 	<sqlMap resource="org/aigps/wq/ibatis/xml/WQ_EMERGENCY_SqlMap.xml" />
 	<sqlMap resource="org/aigps/wq/ibatis/xml/WQ_TMN_STTS_HIS_SqlMap.xml" />
 	<sqlMap resource="org/aigps/wq/ibatis/xml/DC_CMD_TRACE_SqlMap.xml" />
-	<sqlMap resource="org/aigps/wq/ibatis/xml/DC_CHINA_AREA_SqlMap.xml" /
+	<sqlMap resource="org/aigps/wq/ibatis/xml/DC_CHINA_AREA_SqlMap.xml" />
 </sqlMapConfig>
 

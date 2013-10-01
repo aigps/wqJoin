@@ -14,6 +14,7 @@ import java.util.Queue;
 import org.aigps.wq.entity.DcCmdTrace;
 import org.aigps.wq.entity.DcRgAreaHis;
 import org.aigps.wq.entity.GisPosition;
+import org.aigps.wq.entity.WqStaffInfo;
 import org.aigps.wq.ibatis.GpsDataIbatis;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.logging.Log;
@@ -22,6 +23,8 @@ import org.gps.util.common.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+
+import com.ibatis.sqlmap.client.SqlMapClient;
 
 /**
  * 数据中心数据入库
@@ -41,15 +44,27 @@ public class GpsDataDao {
 		return jdbcTemplate;
 	}
 
-
+	@Autowired
+	private  SqlMapClient sqlMapClient;
+	public  SqlMapClient getSqlMapClient() {
+		return sqlMapClient;
+	}
+	
+	public void setSqlMapClient(SqlMapClient sqlMapClient) {
+		this.sqlMapClient = sqlMapClient;
+	}
 
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 	
-	
+	/**
+	 * 加载实时定位信息
+	 * @return
+	 * @throws Exception
+	 */
 	public List<GisPosition> loadDbGps()throws Exception{
-		return (List<GisPosition>)GpsDataIbatis.getSqlMapClient().queryForList("DC_GPS_REAL.selectAll");
+		return (List<GisPosition>)getSqlMapClient().queryForList("DC_GPS_REAL.selectAll");
 	}
 
 
@@ -62,18 +77,18 @@ public class GpsDataDao {
 	public void saveDcCmdTrace(Queue<DcCmdTrace> queue)throws Exception{
 		if(queue!=null && !queue.isEmpty()){
 			try {
-				GpsDataIbatis.getSqlMapClient().startTransaction();
-				GpsDataIbatis.getSqlMapClient().startBatch();
+				getSqlMapClient().startTransaction();
+				getSqlMapClient().startBatch();
 				DcCmdTrace dcCmdTrace = null;
 				while((dcCmdTrace = queue.poll()) != null){
-					GpsDataIbatis.getSqlMapClient().update("DC_CMD_TRACE.insert", dcCmdTrace);
+					getSqlMapClient().update("DC_CMD_TRACE.insert", dcCmdTrace);
 				}
-				GpsDataIbatis.getSqlMapClient().executeBatch();
+				getSqlMapClient().executeBatch();
 			} catch (Exception e) {
 				throw e;
 			}finally{
-				GpsDataIbatis.getSqlMapClient().commitTransaction();
-				GpsDataIbatis.getSqlMapClient().endTransaction();
+				getSqlMapClient().commitTransaction();
+				getSqlMapClient().endTransaction();
 			}
 		}
 	}
@@ -131,40 +146,40 @@ public class GpsDataDao {
 	public  void saveGpsReal(Collection<GisPosition> list)throws Exception{
 		if(list!=null && list.size()>0){
 			try {
-				GpsDataIbatis.getSqlMapClient().startTransaction();
-				GpsDataIbatis.getSqlMapClient().startBatch();
+				getSqlMapClient().startTransaction();
+				getSqlMapClient().startBatch();
 				for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 					try {
 						GisPosition gisPosition = (GisPosition) iterator.next();
-						GpsDataIbatis.getSqlMapClient().delete("DC_GPS_REAL.deleteByPrimaryKey", gisPosition);
+						getSqlMapClient().delete("DC_GPS_REAL.deleteByPrimaryKey", gisPosition);
 					} catch (Exception e) {
 						log.error(e.getMessage(), e);
 					}
 				}
-				GpsDataIbatis.getSqlMapClient().executeBatch();
+				getSqlMapClient().executeBatch();
 			}catch (Exception e) {
 				log.error(e.getMessage(), e);
 			}finally{
-				GpsDataIbatis.getSqlMapClient().commitTransaction();
-				GpsDataIbatis.getSqlMapClient().endTransaction();
+				getSqlMapClient().commitTransaction();
+				getSqlMapClient().endTransaction();
 			}
 			try {
-				GpsDataIbatis.getSqlMapClient().startTransaction();
-				GpsDataIbatis.getSqlMapClient().startBatch();
+				getSqlMapClient().startTransaction();
+				getSqlMapClient().startBatch();
 				for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 					try {
 						GisPosition gisPosition = (GisPosition) iterator.next();
-						GpsDataIbatis.getSqlMapClient().insert("DC_GPS_REAL.insert", gisPosition);
+						getSqlMapClient().insert("DC_GPS_REAL.insert", gisPosition);
 					} catch (Exception e) {
 						log.error(e.getMessage(), e);
 					}
 				}
-				GpsDataIbatis.getSqlMapClient().executeBatch();
+				getSqlMapClient().executeBatch();
 			} catch (Exception e) {
 				log.error(e.getMessage(), e);
 			}finally{
-				GpsDataIbatis.getSqlMapClient().commitTransaction();
-				GpsDataIbatis.getSqlMapClient().endTransaction();
+				getSqlMapClient().commitTransaction();
+				getSqlMapClient().endTransaction();
 			}
 		}
 	}
@@ -177,18 +192,18 @@ public class GpsDataDao {
 	public  void saveGpsHis(Queue<GisPosition> queue)throws Exception{
 		if(queue!=null && !queue.isEmpty()){
 			try {
-				GpsDataIbatis.getSqlMapClient().startTransaction();
-				GpsDataIbatis.getSqlMapClient().startBatch();
+				getSqlMapClient().startTransaction();
+				getSqlMapClient().startBatch();
 				GisPosition p = null;
 				while((p = queue.poll())!= null){
-					GpsDataIbatis.getSqlMapClient().insert("DC_GPS_HIS.insert", p);
+					getSqlMapClient().insert("DC_GPS_HIS.insert", p);
 				}
-				GpsDataIbatis.getSqlMapClient().executeBatch();
-				GpsDataIbatis.getSqlMapClient().commitTransaction();
+				getSqlMapClient().executeBatch();
+				getSqlMapClient().commitTransaction();
 			} catch (Exception e) {
 				log.error(e.getMessage(), e);
 			}finally{
-				GpsDataIbatis.getSqlMapClient().endTransaction();
+				getSqlMapClient().endTransaction();
 			}
 		}
 	}
@@ -201,8 +216,8 @@ public class GpsDataDao {
 	public  void saveDcRgAreaHis(Queue<DcRgAreaHis> queue)throws Exception{
 		if(queue!=null && !queue.isEmpty()){
 			try {
-				GpsDataIbatis.getSqlMapClient().startTransaction();
-				GpsDataIbatis.getSqlMapClient().startBatch();
+				getSqlMapClient().startTransaction();
+				getSqlMapClient().startBatch();
 				DcRgAreaHis dcRgAreaHis = null;
 				while((dcRgAreaHis = queue.poll())!=null){
 					String startTime = dcRgAreaHis.getStartTime();
@@ -213,27 +228,45 @@ public class GpsDataDao {
 					if(NumberUtils.isDigits(dcRgAreaHis.getEndTime())){
 						dcRgAreaHis.setEndTime(DateUtil.converDateFormat(endTime, DateUtil.YMDHMS, DateUtil.YMD_HMS));
 					}
-					GpsDataIbatis.getSqlMapClient().insert("DC_RG_AREA_HIS.insert", dcRgAreaHis);
+					getSqlMapClient().insert("DC_RG_AREA_HIS.insert", dcRgAreaHis);
 					dcRgAreaHis.setStartTime(startTime);
 					dcRgAreaHis.setEndTime(endTime);
 				}
-				GpsDataIbatis.getSqlMapClient().executeBatch();
-				GpsDataIbatis.getSqlMapClient().commitTransaction();
+				getSqlMapClient().executeBatch();
+				getSqlMapClient().commitTransaction();
 			} catch (Exception e) {
 				log.error(e.getMessage(), e);
 			}finally{
-				GpsDataIbatis.getSqlMapClient().endTransaction();
+				getSqlMapClient().endTransaction();
 			}
 		}
 	}
 	
 	
+	/**
+	 * 加载实时人员区域
+	 * @return
+	 * @throws Exception
+	 */
 	public List<DcRgAreaHis> loadDcRgAreaReal()throws Exception{
-			return GpsDataIbatis.getSqlMapClient().queryForList("DC_RG_AREA_REAL.selectAll");
+			return getSqlMapClient().queryForList("DC_RG_AREA_REAL.selectAll");
 	}
 	
 	
-	
+	/**
+	 * 加载所有的员工
+	 * @return
+	 * @throws Exception
+	 */
+	public HashMap<String, WqStaffInfo> loadWqStaffInfo()throws Exception{
+		HashMap<String, WqStaffInfo> retMap = new HashMap<String, WqStaffInfo>();
+		List<WqStaffInfo> list = getSqlMapClient().queryForList("WQ_STAFF_INFO.selectAll");
+		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+			WqStaffInfo wqStaffInfo = (WqStaffInfo) iterator.next();
+			retMap.put(wqStaffInfo.getId(), wqStaffInfo);
+		}
+		return retMap;
+	}
 
 
 }

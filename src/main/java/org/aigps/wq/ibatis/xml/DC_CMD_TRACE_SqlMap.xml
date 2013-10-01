@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="DC_CMD_TRACE">
-  <resultMap class="org.gps.model.dc.DcCmdTrace" id="ibatorgenerated_BaseResultMap">
+  <resultMap class="org.aigps.wq.entity.DcCmdTrace" id="ibatorgenerated_BaseResultMap">
     <result column="ACTION_TIME" jdbcType="VARCHAR" property="actionTime" />
     <result column="TMN_CODE" jdbcType="VARCHAR" property="tmnCode" />
     <result column="TMN_ALIAS" jdbcType="VARCHAR" property="tmnAlias" />
@@ -10,24 +10,24 @@
     <result column="CNT" jdbcType="VARCHAR" property="cnt" />
     <result column="NET_ADDR" jdbcType="VARCHAR" property="netAddr" />
   </resultMap>
-  <select id="selectByPrimaryKey" parameterClass="org.gps.model.dc.DcCmdTrace" resultMap="ibatorgenerated_BaseResultMap">
+  <select id="selectByPrimaryKey" parameterClass="org.aigps.wq.entity.DcCmdTrace" resultMap="ibatorgenerated_BaseResultMap">
     select ACTION_TIME, TMN_CODE, TMN_ALIAS, ACTION_TYPE, CMD_TYPE, CNT, NET_ADDR
     from DC_CMD_TRACE
     where ACTION_TIME = #actionTime:VARCHAR#
       and TMN_CODE = #tmnCode:VARCHAR#
   </select>
-  <delete id="deleteByPrimaryKey" parameterClass="org.gps.model.dc.DcCmdTrace">
+  <delete id="deleteByPrimaryKey" parameterClass="org.aigps.wq.entity.DcCmdTrace">
     delete from DC_CMD_TRACE
     where ACTION_TIME = #actionTime:VARCHAR#
       and TMN_CODE = #tmnCode:VARCHAR#
   </delete>
-  <insert id="insert" parameterClass="org.gps.model.dc.DcCmdTrace">
+  <insert id="insert" parameterClass="org.aigps.wq.entity.DcCmdTrace">
     insert into DC_CMD_TRACE (ACTION_TIME, TMN_CODE, TMN_ALIAS, ACTION_TYPE, CMD_TYPE, CNT,
       NET_ADDR)
     values (#actionTime:VARCHAR#, #tmnCode:VARCHAR#, #tmnAlias:VARCHAR#, #actionType:VARCHAR#,
       #cmdType:VARCHAR#, #cnt:VARCHAR#, #netAddr:VARCHAR#)
   </insert>
-  <insert id="insertSelective" parameterClass="org.gps.model.dc.DcCmdTrace">
+  <insert id="insertSelective" parameterClass="org.aigps.wq.entity.DcCmdTrace">
     insert into DC_CMD_TRACE
     <dynamic prepend="(">
       <isNotNull prepend="," property="actionTime">
@@ -79,7 +79,7 @@
       )
     </dynamic>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterClass="org.gps.model.dc.DcCmdTrace">
+  <update id="updateByPrimaryKeySelective" parameterClass="org.aigps.wq.entity.DcCmdTrace">
     update DC_CMD_TRACE
     <dynamic prepend="set">
       <isNotNull prepend="," property="tmnAlias">
@@ -101,7 +101,7 @@
     where ACTION_TIME = #actionTime:VARCHAR#
       and TMN_CODE = #tmnCode:VARCHAR#
   </update>
-  <update id="updateByPrimaryKey" parameterClass="org.gps.model.dc.DcCmdTrace">
+  <update id="updateByPrimaryKey" parameterClass="org.aigps.wq.entity.DcCmdTrace">
     update DC_CMD_TRACE
     set TMN_ALIAS = #tmnAlias:VARCHAR#,
       ACTION_TYPE = #actionType:VARCHAR#,

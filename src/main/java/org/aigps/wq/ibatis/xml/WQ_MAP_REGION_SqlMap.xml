@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
 <sqlMap namespace="WQ_MAP_REGION" >
-  <resultMap id="ibatorgenerated_BaseResultMap" class="org.gps.model.wq.WqMapRegion" >
+  <resultMap id="ibatorgenerated_BaseResultMap" class="org.aigps.wq.entity.WqMapRegion" >
     <result column="ID" property="id" jdbcType="VARCHAR" />
     <result column="NAME" property="name" jdbcType="VARCHAR" />
     <result column="STANDBY1" property="standby1" jdbcType="VARCHAR" />
@@ -15,21 +15,21 @@
   <select id="selectAll" resultMap="ibatorgenerated_BaseResultMap" >
     select * from WQ_MAP_REGION
   </select>
-  <select id="selectByPrimaryKey" resultMap="ibatorgenerated_BaseResultMap" parameterClass="org.gps.model.wq.WqMapRegion" >
+  <select id="selectByPrimaryKey" resultMap="ibatorgenerated_BaseResultMap" parameterClass="org.aigps.wq.entity.WqMapRegion" >
     select ID, NAME, STANDBY1, STANDBY2, RADIUS, ZOOM, TYPE, STANDBY3, POINTS
     from WQ_MAP_REGION
     where ID = #id:VARCHAR#
   </select>
-  <delete id="deleteByPrimaryKey" parameterClass="org.gps.model.wq.WqMapRegion" >
+  <delete id="deleteByPrimaryKey" parameterClass="org.aigps.wq.entity.WqMapRegion" >
     delete from WQ_MAP_REGION
     where ID = #id:VARCHAR#
   </delete>
-  <insert id="insert" parameterClass="org.gps.model.wq.WqMapRegion" >
+  <insert id="insert" parameterClass="org.aigps.wq.entity.WqMapRegion" >
     insert into WQ_MAP_REGION (ID, NAME, STANDBY1, STANDBY2, RADIUS, ZOOM, TYPE, STANDBY3, POINTS)
     values (#id:VARCHAR#, #name:VARCHAR#, #standby1:VARCHAR#, #standby2:VARCHAR#, #radius:DECIMAL#,
       #zoom:DECIMAL#, #type:CHAR#, #standby3:VARCHAR#, #points:CLOB#)
   </insert>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterClass="org.gps.model.wq.WqMapRegion" >
+  <update id="updateByPrimaryKeyWithBLOBs" parameterClass="org.aigps.wq.entity.WqMapRegion" >
     update WQ_MAP_REGION
     set NAME = #name:VARCHAR#,
       STANDBY1 = #standby1:VARCHAR#,
@@ -41,7 +41,7 @@
       POINTS = #points:CLOB#
     where ID = #id:VARCHAR#
   </update>
-  <update id="updateByPrimaryKey" parameterClass="org.gps.model.wq.WqMapRegion" >
+  <update id="updateByPrimaryKey" parameterClass="org.aigps.wq.entity.WqMapRegion" >
     update WQ_MAP_REGION
     set NAME = #name:VARCHAR#,
       STANDBY1 = #standby1:VARCHAR#,

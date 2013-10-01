@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
 <sqlMap namespace="WQ_EMERGENCY" >
-  <resultMap id="ibatorgenerated_BaseResultMap" class="org.gps.model.wq.WqEmergency" >
+  <resultMap id="ibatorgenerated_BaseResultMap" class="org.aigps.wq.entity.WqEmergency" >
     <result column="ID" property="id" jdbcType="VARCHAR" />
     <result column="STAFF_ID" property="staffId" jdbcType="VARCHAR" />
     <result column="MESSAGE" property="message" jdbcType="VARCHAR" />
@@ -10,21 +10,21 @@
     <result column="COMPANY_ID" property="companyId" jdbcType="VARCHAR" />
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
   </resultMap>
-  <select id="selectByPrimaryKey" resultMap="ibatorgenerated_BaseResultMap" parameterClass="org.gps.model.wq.WqEmergency" >
+  <select id="selectByPrimaryKey" resultMap="ibatorgenerated_BaseResultMap" parameterClass="org.aigps.wq.entity.WqEmergency" >
     select ID, STAFF_ID, MESSAGE, MSG_TIME, SEND_TO, COMPANY_ID, REMARK
     from WQ_EMERGENCY
     where ID = #id:VARCHAR#
   </select>
-  <delete id="deleteByPrimaryKey" parameterClass="org.gps.model.wq.WqEmergency" >
+  <delete id="deleteByPrimaryKey" parameterClass="org.aigps.wq.entity.WqEmergency" >
     delete from WQ_EMERGENCY
     where ID = #id:VARCHAR#
   </delete>
-  <insert id="insert" parameterClass="org.gps.model.wq.WqEmergency" >
+  <insert id="insert" parameterClass="org.aigps.wq.entity.WqEmergency" >
     insert into WQ_EMERGENCY (ID, STAFF_ID, MESSAGE, MSG_TIME, SEND_TO, COMPANY_ID, REMARK)
     values (#id:VARCHAR#, #staffId:VARCHAR#, #message:VARCHAR#, #msgTime:VARCHAR#, #sendTo:VARCHAR#,
       #companyId:VARCHAR#, #remark:VARCHAR#)
   </insert>
-  <update id="updateByPrimaryKey" parameterClass="org.gps.model.wq.WqEmergency" >
+  <update id="updateByPrimaryKey" parameterClass="org.aigps.wq.entity.WqEmergency" >
     update WQ_EMERGENCY
     set STAFF_ID = #staffId:VARCHAR#,
       MESSAGE = #message:VARCHAR#,

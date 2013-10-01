@@ -1,6 +1,7 @@
 package org.aigps.wq;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
@@ -11,10 +12,14 @@ import org.aigps.wq.dao.GpsDataDao;
 import org.aigps.wq.entity.DcCmdTrace;
 import org.aigps.wq.entity.DcRgAreaHis;
 import org.aigps.wq.entity.GisPosition;
+import org.aigps.wq.entity.WqStaffInfo;
+import org.aigps.wq.ibatis.GpsDataIbatis;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.googlecode.concurrentlinkedhashmap.ConcurrentLinkedHashMap;
+import com.sunleads.dc.GpsCache;
 /**
  * 数据中心的内存缓存
  * @author Administrator
@@ -61,6 +66,49 @@ public class DcGpsCache extends Observable{
 	 */
 	public static Queue<DcCmdTrace> inCreCmdTrace = new ConcurrentLinkedQueue<DcCmdTrace>();
 	
+	/**
+	 * 员工ID与员工模型实例的对照
+	 */
+	private static Map<String, WqStaffInfo> staffMap = new ConcurrentLinkedHashMap.Builder<String,WqStaffInfo>().build();
+	
+	
+	public static void setStaffMap(HashMap<String, WqStaffInfo> staffMap)throws Exception {
+		DcGpsCache.staffMap = staffMap;
+		parseMsidStaffMap();
+	}
+
+	public static Map<String, WqStaffInfo> getStaffMap()throws Exception {
+		if(staffMap.size() == 0){
+			staffMap.putAll(WqJoinContext.getBean("gpsDataDao", GpsDataDao.class).loadWqStaffInfo());
+		}
+		return staffMap;
+	}
+	
+	/**
+	 * 手机序列号  与  公司职员  对照
+	 */
+	private static Map<String, String> msidStaffMap = new ConcurrentLinkedHashMap.Builder<String, String>().build();
+	
+
+	public static Map<String, String> getMsidStaffMap()throws Exception {
+		if(msidStaffMap.size() == 0){
+			parseMsidStaffMap();
+		}
+		return msidStaffMap;
+	}
+
+	public static void parseMsidStaffMap()throws Exception {
+		Map<String, WqStaffInfo> staffMap = getStaffMap();
+		Iterator<String> staffIdIt = staffMap.keySet().iterator();
+		while(staffIdIt.hasNext()){
+			String staffId = staffIdIt.next();
+			WqStaffInfo wqStaffInfo = staffMap.get(staffId);
+			String msid = wqStaffInfo.getMsid();
+			if(StringUtils.isNotBlank(msid)){
+				DcGpsCache.msidStaffMap.put(msid, staffId);
+			}
+		}
+	}
 	public static HashMap<String, String> getTmnSysIdMap() {
 		return tmnSysIdMap;
 	}

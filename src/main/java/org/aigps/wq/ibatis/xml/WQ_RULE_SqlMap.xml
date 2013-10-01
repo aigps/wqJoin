@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
 <sqlMap namespace="WQ_RULE" >
-  <resultMap id="ibatorgenerated_BaseResultMap" class="org.gps.model.wq.WqRule" >
+  <resultMap id="ibatorgenerated_BaseResultMap" class="org.aigps.wq.entity.WqRule" >
     <result column="ID" property="id" jdbcType="VARCHAR" />
     <result column="ELE_FENCE_ID" property="eleFenceId" jdbcType="VARCHAR" />
     <result column="NAME" property="name" jdbcType="VARCHAR" />
@@ -24,15 +24,15 @@
   <select id="selectAll" resultMap="ibatorgenerated_BaseResultMap">
     select * from WQ_RULE
   </select>
-  <select id="selectByPrimaryKey" resultMap="ibatorgenerated_BaseResultMap" parameterClass="org.gps.model.wq.WqRule" >
+  <select id="selectByPrimaryKey" resultMap="ibatorgenerated_BaseResultMap" parameterClass="org.aigps.wq.entity.WqRule" >
     select * from WQ_RULE
     where ID = #id:VARCHAR#
   </select>
-  <delete id="deleteByPrimaryKey" parameterClass="org.gps.model.wq.WqRule" >
+  <delete id="deleteByPrimaryKey" parameterClass="org.aigps.wq.entity.WqRule" >
     delete from WQ_RULE
     where ID = #id:VARCHAR#
   </delete>
-  <insert id="insert" parameterClass="org.gps.model.wq.WqRule" >
+  <insert id="insert" parameterClass="org.aigps.wq.entity.WqRule" >
     insert into WQ_RULE (ID, ELE_FENCE_ID, NAME, STANDBY1, START_DATE, END_DATE, STANDBY2,
       START_TIME, END_TIME, WEEK_DAYS, TYPE, COMPANY_ID, REMARK, CREATER,
       MONITOR_PHONE2, MONITOR_PHONE1, IS_ENABLE, STANDBY3)
@@ -42,7 +42,7 @@
       #remark:VARCHAR#, #creater:VARCHAR#, #monitorPhone2:VARCHAR#, #monitorPhone1:VARCHAR#,
       #isEnable:CHAR#, #standby3:VARCHAR#)
   </insert>
-  <update id="updateByPrimaryKey" parameterClass="org.gps.model.wq.WqRule" >
+  <update id="updateByPrimaryKey" parameterClass="org.aigps.wq.entity.WqRule" >
     update WQ_RULE
     set ELE_FENCE_ID = #eleFenceId:VARCHAR#,
       NAME = #name:VARCHAR#,

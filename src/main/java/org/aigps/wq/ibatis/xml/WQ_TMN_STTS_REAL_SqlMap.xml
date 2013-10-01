@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
 <sqlMap namespace="WQ_TMN_STTS_REAL" >
-  <resultMap id="ibatorgenerated_BaseResultMap" class="org.gps.model.wq.WqTmnSttsHis" >
+  <resultMap id="ibatorgenerated_BaseResultMap" class="org.aigps.wq.entity.WqTmnSttsHis" >
     <result column="STAFF_ID" property="staffId" jdbcType="VARCHAR" />
     <result column="RPT_TIME" property="rptTime" jdbcType="VARCHAR" />
     <result column="STTS" property="stts" jdbcType="VARCHAR" />
   </resultMap>
-  <insert id="insert" parameterClass="org.gps.model.wq.WqTmnSttsHis" >
+  <insert id="insert" parameterClass="org.aigps.wq.entity.WqTmnSttsHis" >
     insert into WQ_TMN_STTS_REAL (STAFF_ID, RPT_TIME, STTS)
     values (#staffId:VARCHAR#, #rptTime:VARCHAR#, #stts:VARCHAR#)
   </insert>
-  <delete id="deleteByPrimaryKey" parameterClass="org.gps.model.wq.WqTmnSttsHis" >
+  <delete id="deleteByPrimaryKey" parameterClass="org.aigps.wq.entity.WqTmnSttsHis" >
     delete from WQ_TMN_STTS_REAL
     where STAFF_ID = #staffId:VARCHAR#
   </delete>

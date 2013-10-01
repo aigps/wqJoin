@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
 <sqlMap namespace="WQ_PIC_REAL" >
-  <resultMap id="abatorgenerated_WqPicRealResult" class="org.gps.model.wq.WqPic" >
+  <resultMap id="abatorgenerated_WqPicRealResult" class="org.aigps.wq.entity.WqPic" >
     <result column="STAFF_ID" property="staffId" jdbcType="VARCHAR" />
     <result column="PHONE" property="phone" jdbcType="VARCHAR" />
     <result column="PIC_TIME" property="picTime" jdbcType="DECIMAL" />
@@ -9,21 +9,21 @@
     <result column="PIC_NAME" property="picName" jdbcType="VARCHAR" />
     <result column="PIC_DATA" property="picData" jdbcType="BLOB" />
   </resultMap>
-  <select id="selectByPrimaryKey" resultMap="abatorgenerated_WqPicRealResult" parameterClass="org.gps.model.wq.WqPic" >
+  <select id="selectByPrimaryKey" resultMap="abatorgenerated_WqPicRealResult" parameterClass="org.aigps.wq.entity.WqPic" >
     select STAFF_ID, PHONE, PIC_TIME, PIC_DESC, PIC_NAME, PIC_DATA
     from WQ_PIC_REAL
     where STAFF_ID = #staffId:VARCHAR#
   </select>
-  <delete id="deleteByPrimaryKey" parameterClass="org.gps.model.wq.WqPic" >
+  <delete id="deleteByPrimaryKey" parameterClass="org.aigps.wq.entity.WqPic" >
     delete from WQ_PIC_REAL
     where STAFF_ID = #staffId:VARCHAR#
   </delete>
-  <insert id="insert" parameterClass="org.gps.model.wq.WqPic" >
+  <insert id="insert" parameterClass="org.aigps.wq.entity.WqPic" >
     insert into WQ_PIC_REAL (STAFF_ID, PHONE, PIC_TIME, PIC_DESC, PIC_NAME, PIC_DATA)
     values (#staffId:VARCHAR#, #phone:VARCHAR#, #picTime:DECIMAL#, #picDesc:VARCHAR#,
       #picName:VARCHAR#, #picData:BLOB#)
   </insert>
-  <update id="updateByPrimaryKey" parameterClass="org.gps.model.wq.WqPic" >
+  <update id="updateByPrimaryKey" parameterClass="org.aigps.wq.entity.WqPic" >
     update WQ_PIC_REAL
     set PHONE = #phone:VARCHAR#,
       PIC_TIME = #picTime:DECIMAL#,

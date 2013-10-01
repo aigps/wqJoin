@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
 <sqlMap namespace="DC_RG_AREA_HIS" >
-  <resultMap id="ibatorgenerated_BaseResultMap" class="org.gps.model.dc.DcRgAreaHis" >
+  <resultMap id="ibatorgenerated_BaseResultMap" class="org.aigps.wq.entity.DcRgAreaHis" >
     <result column="TMN_CODE" property="tmnCode" jdbcType="VARCHAR" />
     <result column="TMN_ALIAS" property="tmnAlias" jdbcType="VARCHAR" />
     <result column="START_TIME" property="startTime" jdbcType="VARCHAR" />
     <result column="END_TIME" property="endTime" jdbcType="VARCHAR" />
     <result column="RG_AREA_CODE" property="rgAreaCode" jdbcType="VARCHAR" />
   </resultMap>
-  <insert id="insert" parameterClass="org.gps.model.dc.DcRgAreaHis" >
+  <insert id="insert" parameterClass="org.aigps.wq.entity.DcRgAreaHis" >
     insert into DC_RG_AREA_HIS (TMN_CODE, TMN_ALIAS, START_TIME, END_TIME, RG_AREA_CODE)
     values (#tmnCode:VARCHAR#, #tmnAlias:VARCHAR#, #startTime:VARCHAR#, #endTime:VARCHAR#,
       #rgAreaCode:VARCHAR#)

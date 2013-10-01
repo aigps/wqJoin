@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="DC_DAY_MILE">
-  <resultMap class="org.gps.model.dc.DcDayMile" id="ibatorgenerated_BaseResultMap">
+  <resultMap class="org.aigps.wq.entity.DcDayMile" id="ibatorgenerated_BaseResultMap">
     <result column="DAY" jdbcType="VARCHAR" property="day" />
     <result column="TMN_CODE" jdbcType="VARCHAR" property="tmnCode" />
     <result column="TMN_ALIAS" jdbcType="VARCHAR" property="tmnAlias" />
     <result column="DAY_MILE" jdbcType="DECIMAL" property="dayMile" nullValue="0"/>
     <result column="CURR_MILE" jdbcType="DECIMAL" property="currMile" nullValue="0"/>
   </resultMap>
-  <select id="selectByPrimaryKey" parameterClass="org.gps.model.dc.DcDayMile" resultMap="ibatorgenerated_BaseResultMap">
+  <select id="selectByPrimaryKey" parameterClass="org.aigps.wq.entity.DcDayMile" resultMap="ibatorgenerated_BaseResultMap">
     select DAY, TMN_CODE, TMN_ALIAS, DAY_MILE, CURR_MILE
     from DC_DAY_MILE
     where DAY = #day:VARCHAR#
@@ -17,17 +17,17 @@
   <select id="selectByDay" parameterClass="String" resultMap="ibatorgenerated_BaseResultMap">
     select * from DC_DAY_MILE where DAY = #day:VARCHAR#
   </select>
-  <delete id="deleteByPrimaryKey" parameterClass="org.gps.model.dc.DcDayMile">
+  <delete id="deleteByPrimaryKey" parameterClass="org.aigps.wq.entity.DcDayMile">
     delete from DC_DAY_MILE
     where DAY = #day:VARCHAR#
       and TMN_CODE = #tmnCode:VARCHAR#
   </delete>
-  <insert id="insert" parameterClass="org.gps.model.dc.DcDayMile">
+  <insert id="insert" parameterClass="org.aigps.wq.entity.DcDayMile">
     insert into DC_DAY_MILE (DAY, TMN_CODE, TMN_ALIAS, DAY_MILE, CURR_MILE)
     values (#day:VARCHAR#, #tmnCode:VARCHAR#, #tmnAlias:VARCHAR#, #dayMile:DECIMAL#,
       #currMile:DECIMAL#)
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterClass="org.gps.model.dc.DcDayMile">
+  <update id="updateByPrimaryKeySelective" parameterClass="org.aigps.wq.entity.DcDayMile">
     update DC_DAY_MILE
     <dynamic prepend="set">
       <isNotNull prepend="," property="tmnAlias">
@@ -43,13 +43,13 @@
     where DAY = #day:VARCHAR#
       and TMN_CODE = #tmnCode:VARCHAR#
   </update>
-  <update id="updateDayMile" parameterClass="org.gps.model.dc.DcDayMile">
+  <update id="updateDayMile" parameterClass="org.aigps.wq.entity.DcDayMile">
     update DC_DAY_MILE
       DAY_MILE = #dayMile:DECIMAL#
     where DAY = #day:VARCHAR#
       and TMN_CODE = #tmnCode:VARCHAR#
   </update>
-  <update id="updateByPrimaryKey" parameterClass="org.gps.model.dc.DcDayMile">
+  <update id="updateByPrimaryKey" parameterClass="org.aigps.wq.entity.DcDayMile">
     update DC_DAY_MILE
     set TMN_ALIAS = #tmnAlias:VARCHAR#,
       DAY_MILE = #dayMile:DECIMAL#,

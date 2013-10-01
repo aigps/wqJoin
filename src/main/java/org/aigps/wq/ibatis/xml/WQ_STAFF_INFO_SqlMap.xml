@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
 <sqlMap namespace="WQ_STAFF_INFO" >
-  <resultMap id="ibatorgenerated_BaseResultMap" class="org.gps.model.wq.WqStaffInfo" >
+  <resultMap id="ibatorgenerated_BaseResultMap" class="org.aigps.wq.entity.WqStaffInfo" >
     <result column="ID" property="id" jdbcType="VARCHAR" />
     <result column="STAFF_NO" property="staffNo" jdbcType="VARCHAR" />
     <result column="DEP_ID" property="depId" jdbcType="VARCHAR" />
@@ -32,18 +32,18 @@
     <result column="IS_COMPANY_SIGN_OUT" property="isCompanySignOut" jdbcType="CHAR" />
     <result column="IS_CLIENT_SIGN_OUT" property="isClientSignOut" jdbcType="CHAR" />
   </resultMap>
-  <select id="selectByPrimaryKey" resultMap="ibatorgenerated_BaseResultMap" parameterClass="org.gps.model.wq.WqStaffInfo" >
+  <select id="selectByPrimaryKey" resultMap="ibatorgenerated_BaseResultMap" parameterClass="org.aigps.wq.entity.WqStaffInfo" >
     select * from WQ_STAFF_INFO
     where ID = #id:VARCHAR#  <![CDATA[ where is_enable = '1']]>
   </select>
-  <select id="selectAll" resultMap="ibatorgenerated_BaseResultMap" parameterClass="org.gps.model.wq.WqStaffInfo" >
+  <select id="selectAll" resultMap="ibatorgenerated_BaseResultMap" parameterClass="org.aigps.wq.entity.WqStaffInfo" >
     select * from WQ_STAFF_INFO  <![CDATA[ where is_enable = '1']]>
   </select>
-  <delete id="deleteByPrimaryKey" parameterClass="org.gps.model.wq.WqStaffInfo" >
+  <delete id="deleteByPrimaryKey" parameterClass="org.aigps.wq.entity.WqStaffInfo" >
     delete from WQ_STAFF_INFO
     where ID = #id:VARCHAR#
   </delete>
-  <insert id="insert" parameterClass="org.gps.model.wq.WqStaffInfo" >
+  <insert id="insert" parameterClass="org.aigps.wq.entity.WqStaffInfo" >
     insert into WQ_STAFF_INFO (ID, STAFF_NO, DEP_ID, CN_NAME, COMPANY_ID, EN_NAME, STANDBY1, MSID,
       MOBILE_NUMBER, STANDBY2, CONTACT_NUMBER, START_WORK_TIME, ACTIVATE_STATE, END_WORK_TIME,
       IS_ENABLE, CREATER, WORK_WEEK_DAYS, REMARK, STANDBY3, HOME_ADDRESS, LOCATE_INTERVAL,
@@ -58,7 +58,7 @@
       #signOutStartTime:VARCHAR#, #signOutEndTime:VARCHAR#, #isCompanySignIn:CHAR#,
       #isClientSignIn:CHAR#, #isCompanySignOut:CHAR#, #isClientSignOut:CHAR#)
   </insert>
-  <update id="updateByPrimaryKey" parameterClass="org.gps.model.wq.WqStaffInfo" >
+  <update id="updateByPrimaryKey" parameterClass="org.aigps.wq.entity.WqStaffInfo" >
     update WQ_STAFF_INFO
     set STAFF_NO = #staffNo:VARCHAR#,
       DEP_ID = #depId:VARCHAR#,

@@ -8,10 +8,8 @@ public class GisPosition implements Serializable{
 	private static final long serialVersionUID = 3877679755390311347L;
 	//终端号
 	private String tmnKey;
-	
 	//
 	private String tmnAlias;
-	
 	//定位时间yyyyMMddHHmmss
 	private String rptTime;
 	//经度
@@ -34,14 +32,21 @@ public class GisPosition implements Serializable{
 	private String trigType;
 	//地理描述
 	private String locDesc;
-	//基站ID
-	private String cellId;
 		//精度
 	private int precision ;
-	//接收时间
+	//接收时间yyyyMMddHHmmss
 	private String serverTime;
 	//行政区域编号
 	private String zCode;
+	//查询开始时间yyyyMMddHHmmss
+	private String queryStartTime;
+	//查询结束时间yyyyMMddHHmmss
+	private String queryEndTime;
+	
+	
+	
+	//基站ID  暂时不支持
+//	private String cellId;
 	public String getzCode() {
 		return zCode;
 	}
@@ -140,11 +145,25 @@ public class GisPosition implements Serializable{
 	public void setLocDesc(String locDesc) {
 		this.locDesc = locDesc;
 	}
+	public String getQueryStartTime() {
+		return queryStartTime;
+	}
+	public void setQueryStartTime(String queryStartTime) {
+		this.queryStartTime = queryStartTime;
+	}
+	public String getQueryEndTime() {
+		return queryEndTime;
+	}
+	public void setQueryEndTime(String queryEndTime) {
+		this.queryEndTime = queryEndTime;
+	}
 
-	public String getCellId() {
-		return cellId;
-	}
-	public void setCellId(String cellId) {
-		this.cellId = cellId;
-	}
+//	public String getCellId() {
+//		return cellId;
+//	}
+//	public void setCellId(String cellId) {
+//		this.cellId = cellId;
+//	}
+	
+	
 }

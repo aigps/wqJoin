@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
 <sqlMap namespace="WQ_ALARM_INFO" >
-  <resultMap id="ibatorgenerated_BaseResultMap" class="org.gps.model.wq.WqAlarmInfo" >
+  <resultMap id="ibatorgenerated_BaseResultMap" class="org.aigps.wq.entity.WqAlarmInfo" >
     <result column="RULE_ID" property="ruleId" jdbcType="VARCHAR" />
     <result column="STANDBY1" property="standby1" jdbcType="VARCHAR" />
     <result column="ALARM_TIME" property="alarmTime" jdbcType="VARCHAR" />
@@ -12,7 +12,7 @@
     <result column="STANDBY3" property="standby3" jdbcType="VARCHAR" />
     <result column="STAFF_ID" property="staffId" jdbcType="VARCHAR" />
   </resultMap>
-  <insert id="insert" parameterClass="org.gps.model.wq.WqAlarmInfo">
+  <insert id="insert" parameterClass="org.aigps.wq.entity.WqAlarmInfo">
     insert into WQ_ALARM_INFO (RULE_ID, STANDBY1, ALARM_TIME, LOC_DESC, COMPANY_ID,
       STANDBY2, REMARK, STANDBY3, STAFF_ID)
     values (#ruleId:VARCHAR#, #standby1:VARCHAR#, #alarmTime:VARCHAR#,

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
 <sqlMap namespace="WQ_MOOD" >
-  <resultMap id="ibatorgenerated_BaseResultMap" class="org.gps.model.wq.WqMood" >
+  <resultMap id="ibatorgenerated_BaseResultMap" class="org.aigps.wq.entity.WqMood" >
     <result column="ID" property="id" jdbcType="VARCHAR" />
     <result column="STAFF_ID" property="staffId" jdbcType="VARCHAR" />
     <result column="MESSAGE" property="message" jdbcType="VARCHAR" />
@@ -9,21 +9,21 @@
     <result column="COMPANY_ID" property="companyId" jdbcType="VARCHAR" />
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
   </resultMap>
-  <select id="selectByPrimaryKey" resultMap="ibatorgenerated_BaseResultMap" parameterClass="org.gps.model.wq.WqMood" >
+  <select id="selectByPrimaryKey" resultMap="ibatorgenerated_BaseResultMap" parameterClass="org.aigps.wq.entity.WqMood" >
     select ID, STAFF_ID, MESSAGE, MSG_TIME, COMPANY_ID, REMARK
     from WQ_MOOD
     where ID = #id:VARCHAR#
   </select>
-  <delete id="deleteByPrimaryKey" parameterClass="org.gps.model.wq.WqMood" >
+  <delete id="deleteByPrimaryKey" parameterClass="org.aigps.wq.entity.WqMood" >
     delete from WQ_MOOD
     where ID = #id:VARCHAR#
   </delete>
-  <insert id="insert" parameterClass="org.gps.model.wq.WqMood" >
+  <insert id="insert" parameterClass="org.aigps.wq.entity.WqMood" >
     insert into WQ_MOOD (ID, STAFF_ID, MESSAGE, MSG_TIME, COMPANY_ID, REMARK)
     values (#id:VARCHAR#, #staffId:VARCHAR#, #message:VARCHAR#, #msgTime:VARCHAR#,
       #companyId:VARCHAR#, #remark:VARCHAR#)
   </insert>
-  <update id="ibatorgenerated_updateByPrimaryKeySelective" parameterClass="org.gps.model.wq.WqMood" >
+  <update id="ibatorgenerated_updateByPrimaryKeySelective" parameterClass="org.aigps.wq.entity.WqMood" >
     update WQ_MOOD
     <dynamic prepend="set" >
       <isNotNull prepend="," property="staffId" >
@@ -44,7 +44,7 @@
     </dynamic>
     where ID = #id:VARCHAR#
   </update>
-  <update id="ibatorgenerated_updateByPrimaryKey" parameterClass="org.gps.model.wq.WqMood" >
+  <update id="ibatorgenerated_updateByPrimaryKey" parameterClass="org.aigps.wq.entity.WqMood" >
     update WQ_MOOD
     set STAFF_ID = #staffId:VARCHAR#,
       MESSAGE = #message:VARCHAR#,

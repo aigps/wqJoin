@@ -1,69 +1,56 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
 <sqlMap namespace="DC_GPS_HIS" >
-  <resultMap id="ibatorgenerated_BaseResultMap" class="org.gps.ym.model.YmGpsModel" >
-    <result column="TMN_CODE" property="tmnCode" jdbcType="VARCHAR" />
+  <resultMap id="ibatorgenerated_BaseResultMap" class="org.aigps.wq.entity.GisPosition" >
+    <result column="TMN_CODE" property="tmnKey" jdbcType="VARCHAR" />
     <result column="TMN_ALIAS" property="tmnAlias" jdbcType="VARCHAR" />
-    <result column="REPORT_TIME" property="gpsTime" jdbcType="DECIMAL" />
+    <result column="REPORT_TIME" property="rptTime" jdbcType="DECIMAL" />
     <result column="LOGIT" property="lon" jdbcType="DECIMAL" />
     <result column="LAT" property="lat" jdbcType="DECIMAL" />
-    <result column="LOGIT_OFFSET" property="lonOffset" jdbcType="DECIMAL" />
-    <result column="LAT_OFFSET" property="latOffset" jdbcType="DECIMAL" />
     <result column="SPEED" property="speed" jdbcType="VARCHAR" />
     <result column="ANGLE" property="dire" jdbcType="VARCHAR" />
-    <result column="HEIGHT" property="height" jdbcType="VARCHAR" />
-    <result column="STTS1" property="stts1" jdbcType="VARCHAR" />
-    <result column="STTS2" property="stts2" jdbcType="VARCHAR" />
-    <result column="STTS3" property="stts3" jdbcType="VARCHAR" />
-    <result column="STTS4" property="stts4" jdbcType="VARCHAR" />
-    <result column="ALARM_STTS" property="alarmStts" jdbcType="VARCHAR" />
-    <result column="ALARM_MARK" property="alarmMark" jdbcType="VARCHAR" />
-    <result column="GSM_SIGN" property="gsmValue" jdbcType="VARCHAR" />
-    <result column="GPS_SATL" property="satlCount" jdbcType="VARCHAR" />
-    <result column="MONI1" property="analog0" jdbcType="DECIMAL" />
-    <result column="MONI2" property="analog1" jdbcType="DECIMAL" />
-    <result column="MILE" property="mile" jdbcType="DECIMAL" />
+    <result column="HEIGHT" property="altitude" jdbcType="VARCHAR" />
+    <result column="GSM_SIGN" property="gsmSign" jdbcType="VARCHAR" />
+    <result column="GPS_SATL" property="satlSign" jdbcType="VARCHAR" />
+    <result column="GPS_TYPE" property="gpsType" jdbcType="VARCHAR" />
+    <result column="ALARM_TYPE" property="trigType" jdbcType="VARCHAR" />
     <result column="LOC_DESC" property="locDesc" jdbcType="VARCHAR" />
     <result column="ZCODE" property="zCode" jdbcType="VARCHAR" />
-    <result column="GPS_TYPE" property="gpsType" jdbcType="VARCHAR" />
-    <result column="ALARM_TYPE" property="alarmType" jdbcType="VARCHAR" />
     <result column="PRECISION" property="precision" jdbcType="VARCHAR"/>
-    <result column="IS_VALID_GPS" property="isValidGps" jdbcType="VARCHAR" />
   </resultMap>
-  <select id="selectByPrimaryKey" resultMap="ibatorgenerated_BaseResultMap" parameterClass="org.gps.ym.model.YmGpsModel" >
+  <select id="selectByPrimaryKey" resultMap="ibatorgenerated_BaseResultMap" parameterClass="org.aigps.wq.entity.GisPosition" >
     select * from DC_GPS_HIS
-    where TMN_CODE = #tmnCode:VARCHAR# and REPORT_TIME = #gpsTime:DECIMAL#
+    where TMN_CODE = #tmnKey:VARCHAR# and REPORT_TIME = #rptTime:DECIMAL#
   </select>
   <select id="selectHisTime" resultMap="ibatorgenerated_BaseResultMap" parameterClass="String" >
     select * from DC_GPS_HIS
-    where TMN_CODE = #tmnCode:VARCHAR# and 
+    where TMN_CODE = #tmnKey:VARCHAR# and 
     <![CDATA[ REPORT_TIME  >=20110901000000 and  REPORT_TIME  <20110919000000 ]]> 
   </select>
   
-  <select id="queryStaffHis" resultMap="ibatorgenerated_BaseResultMap" parameterClass="org.gps.ym.model.YmGpsModel" >
+  <select id="queryStaffHis" resultMap="ibatorgenerated_BaseResultMap" parameterClass="org.aigps.wq.entity.GisPosition" >
     select * from DC_GPS_HIS
     where TMN_ALIAS = #tmnAlias:VARCHAR# and 
     REPORT_TIME <![CDATA[>=]]> #queryStartTime:VARCHAR# and  REPORT_TIME  <![CDATA[<]]>#queryEndTime:VARCHAR# 
     order by REPORT_TIME ASC
   </select>
-  <delete id="deleteByPrimaryKey" parameterClass="org.gps.ym.model.YmGpsModel" >
+  <delete id="deleteByPrimaryKey" parameterClass="org.aigps.wq.entity.GisPosition" >
     delete from DC_GPS_HIS
-    where TMN_CODE = #tmnCode:VARCHAR#
+    where TMN_CODE = #tmnKey:VARCHAR#
   </delete>
-  <insert id="insert" parameterClass="org.gps.ym.model.YmGpsModel" >
-    insert into DC_GPS_HIS (TMN_CODE, TMN_ALIAS, REPORT_TIME, LOGIT, LAT, LOGIT_OFFSET, LAT_OFFSET,
-      SPEED, ANGLE, HEIGHT, STTS1, STTS2, STTS3, STTS4, ALARM_STTS, ALARM_MARK, GSM_SIGN, GPS_SATL,
-      MONI1, MONI2, MILE, LOC_DESC, ZCODE, GPS_TYPE, ALARM_TYPE,PRECISION,IS_VALID_GPS)
-    values (#tmnCode:VARCHAR#, #tmnAlias:VARCHAR#, #gpsTime:DECIMAL#, #lon:DECIMAL#,
-      #lat:DECIMAL#, #lonOffset:DECIMAL#, #latOffset:DECIMAL#, #speed:VARCHAR#, #dire:VARCHAR#,
-      #height:VARCHAR#, #stts1:VARCHAR#, #stts2:VARCHAR#, #stts3:VARCHAR#, #stts4:VARCHAR#,
-      #alarmStts:VARCHAR#, #alarmMark:VARCHAR#, #gsmValue:VARCHAR#, #satlCount:VARCHAR#,
-      #analog0:DECIMAL#, #analog1:DECIMAL#, #mile:DECIMAL#, #locDesc:VARCHAR#, #zCode:VARCHAR#,
-      #gpsType:VARCHAR#, #alarmType:VARCHAR#,#precision:VARCHAR#,#isValidGps:VARCHAR#)
+  <insert id="insert" parameterClass="org.aigps.wq.entity.GisPosition" >
+    insert into DC_GPS_HIS (TMN_CODE, TMN_ALIAS, REPORT_TIME, LOGIT, LAT,
+      SPEED, ANGLE, HEIGHT,GSM_SIGN, GPS_SATL,
+      LOC_DESC, ZCODE, GPS_TYPE, ALARM_TYPE,PRECISION)
+    values (#tmnKey:VARCHAR#, #tmnAlias:VARCHAR#, #rptTime:DECIMAL#, #lon:DECIMAL#,
+      #lat:DECIMAL#, #speed:VARCHAR#, #dire:VARCHAR#,
+      #altitude:VARCHAR#,  #gsmSign:VARCHAR#, #satlSign:VARCHAR#,
+       #locDesc:VARCHAR#, #zCode:VARCHAR#,
+      #gpsType:VARCHAR#, #trigType:VARCHAR#,#precision:VARCHAR#)
   </insert>
-  <update id="updateGpsLoc" parameterClass="org.gps.ym.model.YmGpsModel">
+  <update id="updateGpsLoc" parameterClass="org.aigps.wq.entity.GisPosition">
   	update DC_GPS_HIS set LOC_DESC = #locDesc:VARCHAR#
-  	where TMN_CODE = #tmnCode:VARCHAR# and REPORT_TIME = #gpsTime:DECIMAL#
+  	where TMN_CODE = #tmnKey:VARCHAR# and REPORT_TIME = #rptTime:DECIMAL#
   </update>
 
 </sqlMap>

@@ -1,4 +1,7 @@
 package org.aigps.wq.entity;
+
+import java.io.Serializable;
+
 /**
  * 
 * @Title：手机终端的状态历史
@@ -14,7 +17,12 @@ package org.aigps.wq.entity;
 * Copyright：Copyright(C),1995-2011 浙IPC备09004804号
 * Company：杭州元码科技有限公司
  */
-public class WqTmnSttsHis {
+public class WqTmnSttsHis implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7631795617183676903L;
 	//员工ID
     private String staffId;
     //上报时间
