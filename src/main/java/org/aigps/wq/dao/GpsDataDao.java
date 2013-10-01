@@ -10,12 +10,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-
 import org.aigps.wq.entity.DcCmdTrace;
 import org.aigps.wq.entity.DcRgAreaHis;
 import org.aigps.wq.entity.GisPosition;
 import org.aigps.wq.entity.WqStaffInfo;
-import org.aigps.wq.ibatis.GpsDataIbatis;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -23,7 +21,6 @@ import org.gps.util.common.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-
 import com.ibatis.sqlmap.client.SqlMapClient;
 
 /**
