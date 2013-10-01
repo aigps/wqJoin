@@ -27,8 +27,8 @@ public class DbGpsHisSaveJob implements Job {
 	public static Queue<GisPosition> swapGpsQueue = new ConcurrentLinkedQueue<GisPosition>();
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		if(!isRunning){
-			Queue<GisPosition> gpsHis = DcGpsCache.gpsReportMinuCache;
-			DcGpsCache.gpsReportMinuCache = swapGpsQueue;
+			Queue<GisPosition> gpsHis = DcGpsCache.gpsAddCache;
+			DcGpsCache.gpsAddCache = swapGpsQueue;
 			try {
 				isRunning = true;
 				GpsDataDao gpsDataDao = WqJoinContext.getBean("gpsDataDao", GpsDataDao.class);

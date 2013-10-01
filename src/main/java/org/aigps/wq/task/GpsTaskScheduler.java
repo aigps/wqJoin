@@ -12,7 +12,7 @@ import org.aigps.wq.task.job.DbGpsHisSaveJob;
 import org.aigps.wq.task.job.DbGpsRealSaveJob;
 import org.aigps.wq.task.job.DbGpsZcodeSaveJob;
 import org.aigps.wq.task.job.ParseGpsLocDescJob;
-import org.aigps.wq.task.job.TmnSysIdRefreshJob;
+import org.aigps.wq.task.job.SystemRefreshJob;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.quartz.CronTrigger;
@@ -111,14 +111,14 @@ public class GpsTaskScheduler {
 			/**
 			 * 批量更新车辆的地理位置
 			 */
-			if("true".equalsIgnoreCase(config.getProperty("tmnSysIdRefreshJob"))){
-				JobDetail tmnSysIdRefreshJob = new JobDetail(TmnSysIdRefreshJob.ID,sched.getSchedulerName(),TmnSysIdRefreshJob.class);
-				CronTrigger tmnSysIdRefreshJobTrigger = new CronTrigger("tmnSysIdRefreshJobTrigger", sched.getSchedulerName(), TmnSysIdRefreshJob.ID, sched.getSchedulerName(),config.getProperty("tmnSysIdRefreshJobTrigger"));
-				sched.addJob(tmnSysIdRefreshJob, true);
-				ft = sched.scheduleJob(tmnSysIdRefreshJobTrigger);
-				log.info(tmnSysIdRefreshJob.getFullName() + " has been scheduled to run at: " + ft
+			if("true".equalsIgnoreCase(config.getProperty("systemRefreshJob"))){
+				JobDetail systemRefreshJob = new JobDetail(SystemRefreshJob.ID,sched.getSchedulerName(),SystemRefreshJob.class);
+				CronTrigger systemRefreshJobTrigger = new CronTrigger("systemRefreshJobTrigger", sched.getSchedulerName(), SystemRefreshJob.ID, sched.getSchedulerName(),config.getProperty("systemRefreshJobTrigger"));
+				sched.addJob(systemRefreshJob, true);
+				ft = sched.scheduleJob(systemRefreshJobTrigger);
+				log.info(systemRefreshJob.getFullName() + " has been scheduled to run at: " + ft
 		        + " and repeat based on expression: "
-		        + tmnSysIdRefreshJobTrigger.getCronExpression());
+		        + systemRefreshJobTrigger.getCronExpression());
 			}
 			/**
 			 * 过往指令入库

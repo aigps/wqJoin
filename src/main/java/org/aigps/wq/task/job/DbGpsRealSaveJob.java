@@ -34,8 +34,8 @@ public class DbGpsRealSaveJob implements Job {
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		if(!isRunning){
 			isRunning = true;
-			Map<String,GisPosition> gpsRealMap = DcGpsCache.changeGpsReport;
-			DcGpsCache.changeGpsReport = swapGps;
+			Map<String,GisPosition> gpsRealMap = DcGpsCache.gpsChangeCache;
+			DcGpsCache.gpsChangeCache = swapGps;
 			try {
 				GpsDataDao gpsDataDao = WqJoinContext.getBean("gpsDataDao", GpsDataDao.class);
 				if(gpsRealMap!=null && gpsRealMap.size()>0){

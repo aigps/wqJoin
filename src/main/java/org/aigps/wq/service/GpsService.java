@@ -148,7 +148,7 @@ public class GpsService {
 			DcGpsCache.updateLastGps(tmnCode, gisPos);
 			
 			//增量定位信息
-			DcGpsCache.gpsReportMinuCache.add(gisPos);
+			DcGpsCache.gpsAddCache.add(gisPos);
 			
 			MqMsg mqMsg = new MqMsg(tmnCode, "WQ", 0, "GPS","RPT");
 			mqMsg.setData(gisPos);

@@ -98,8 +98,8 @@ public class GpsDataDao {
 	 * @return
 	 * @throws Exception
 	 */
-	public HashMap<String,String> getTmnSysIdMap(String sql)throws Exception{
-		HashMap<String, String> retMap = new HashMap<String, String>();
+	public Map<String,String> getTmnSysIdMap(String sql)throws Exception{
+		Map<String, String> retMap = new HashMap<String, String>();
 		int firstComma = sql.indexOf(",");
 		int firstBlank = sql.indexOf(" ");
 		String tmnColumn = sql.substring(firstBlank, firstComma).trim();
