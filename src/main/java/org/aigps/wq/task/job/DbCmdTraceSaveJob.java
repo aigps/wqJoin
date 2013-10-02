@@ -4,6 +4,7 @@
 package org.aigps.wq.task.job;
 
 import java.util.Queue;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.aigps.wq.DcGpsCache;
 import org.aigps.wq.WqJoinContext;
@@ -22,12 +23,11 @@ import org.quartz.JobExecutionException;
 public class DbCmdTraceSaveJob implements Job {
 	private static final Log log = LogFactory.getLog(DbCmdTraceSaveJob.class);
 	
-	private static boolean isRunning = false;//同一个时间点，只允许一个job跑数
+	private static AtomicBoolean isRunning = new AtomicBoolean();//同一个时间点，只允许一个job跑数
 	public static final String ID="DbCmdTraceSaveJob";
 	
 	public void execute(JobExecutionContext context) throws JobExecutionException {
-		if(!isRunning){
-			isRunning = true;
+		if(isRunning.compareAndSet(false, true)){
 			try {
 				GpsDataDao gpsDataDao = WqJoinContext.getBean("gpsDataDao", GpsDataDao.class);
 				Queue<DcCmdTrace> newCmdList = DcGpsCache.inCreCmdTrace;
@@ -35,7 +35,7 @@ public class DbCmdTraceSaveJob implements Job {
 			} catch (Exception e) {
 				log.error(e.getMessage(), e);
 			}finally{
-				isRunning = false;
+				isRunning.set(false);
 			}
 		}
 		

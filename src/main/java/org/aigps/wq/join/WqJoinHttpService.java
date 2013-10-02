@@ -53,19 +53,6 @@ public class WqJoinHttpService  implements IHttpService{
     }
 	
 	public String execute(ChannelHandlerContext ctx, Object request) throws Exception {
-		if(request  instanceof HttpRequest){
-			HttpRequest httpRequest = (HttpRequest)request;
-			//判断是不是FORM提交上传图片
-			try{
-				HttpPostRequestDecoder decoder = new HttpPostRequestDecoder(factory, httpRequest);
-				if(decoder.isMultipart()){
-					Picture pic = FormAnalyse.analysePicture(decoder);
-					GpsService.sendPicture(pic);
-					return "true";
-				}
-			} catch(Exception e){
-			}
-		}
 		if(request instanceof HttpContent){
 			HttpContent httpContent = (HttpContent) request;
 			ByteBuf content  = httpContent.content();

@@ -4,6 +4,7 @@
 package org.aigps.wq.task.job;
 
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.aigps.wq.DcGpsCache;
 import org.aigps.wq.WqJoinContext;
@@ -23,7 +24,7 @@ import com.googlecode.concurrentlinkedhashmap.ConcurrentLinkedHashMap;
  */
 public class DbGpsRealSaveJob implements Job {
 	private static final Log log = LogFactory.getLog(DbGpsRealSaveJob.class);
-	private static boolean isRunning = false;//同一个时间点，只允许一个job跑数
+	private static AtomicBoolean isRunning = new AtomicBoolean();//同一个时间点，只允许一个job跑数
 	public static final String ID="DbGpsRealSaveJob";
 	/**
 	 * 变动过的定位信息
@@ -32,8 +33,7 @@ public class DbGpsRealSaveJob implements Job {
 
 	
 	public void execute(JobExecutionContext context) throws JobExecutionException {
-		if(!isRunning){
-			isRunning = true;
+		if(isRunning.compareAndSet(false, true)){
 			Map<String,GisPosition> gpsRealMap = DcGpsCache.gpsChangeCache;
 			DcGpsCache.gpsChangeCache = swapGps;
 			try {
@@ -46,7 +46,7 @@ public class DbGpsRealSaveJob implements Job {
 			}finally{
 				gpsRealMap.clear();
 				swapGps = gpsRealMap;
-				isRunning = false;
+				isRunning.set(false);
 			}
 		}
 	}

@@ -4,22 +4,18 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Observable;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
-
 import org.aigps.wq.dao.GpsDataDao;
 import org.aigps.wq.entity.DcCmdTrace;
 import org.aigps.wq.entity.DcRgAreaHis;
 import org.aigps.wq.entity.GisPosition;
 import org.aigps.wq.entity.WqStaffInfo;
-import org.aigps.wq.ibatis.GpsDataIbatis;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.googlecode.concurrentlinkedhashmap.ConcurrentLinkedHashMap;
-import com.sunleads.dc.GpsCache;
 /**
  * 数据中心的内存缓存
  * @author Administrator

@@ -22,7 +22,7 @@ import com.thoughtworks.xstream.XStream;
 
 public class GpsService {
 	private static final Log log = LogFactory.getLog(GpsService.class);
-	public static boolean correctGpsTime(String sysTime,String maxFutureTime,GisPosition gisPos)throws Exception{
+	public static boolean correctGpsTime(String maxFutureTime,GisPosition gisPos)throws Exception{
 		boolean retFlag = true;
 		String gpsTime = gisPos.getRptTime();
 		//定位时间超过系统时间
@@ -74,31 +74,10 @@ public class GpsService {
 		}else if(model.isPicture() && pic!=null){//拍照
 			pic.setTime(model.getTime());
 			pic.setMsid(msId);
-			sendPicture(pic);
 		}
 		return null;
 	}
 	
-	public static void sendPicture(Picture pic) throws Exception{
-		String picData = pic.getData();
-		List<String> list = new ArrayList<String>();
-		int index = 0, length = picData.length();
-		while(index+2000 < length){
-			list.add(picData.substring(index,index+2000));
-			index += 2000;
-		}
-		list.add(picData.substring(index));
-		int packIndex = 1, totalPack = list.size();
-//		Channel cnel = WqJoinContext.getYmNettyClient().getChannel();
-//		for(String data:list){
-//			String picd =  "0|"+pic.getTime()+"|0|"+packIndex+"|"+totalPack+"|"+data+"|"+pic.getDesc()+"|"+pic.getName();
-//			YmAccessMsg ymMsg = new YmAccessMsg("PIC", "IMSI", pic.getMsid(), picd);
-//       	 	ChannelUtil.sendMsg(cnel, ymMsg.toYmString().getBytes());
-//       	 	log.error("pic index:"+packIndex);
-//			packIndex++;
-//			Thread.sleep(10);
-//		}
-	}
 	
 	/**
 	 * 解析定位数据
@@ -117,44 +96,44 @@ public class GpsService {
 		//最近定位
 		GisPosition preGps = DcGpsCache.getLastGps(tmnCode);
 		if(preGps!=null){
-			if(preGps.getRptTime()!=null && preGps.getRptTime().equalsIgnoreCase(gisPos.getRptTime())){
+			if(StringUtils.isNotBlank(preGps.getRptTime()) && preGps.getRptTime().equalsIgnoreCase(gisPos.getRptTime())){
 				log.warn(tmnCode+" 上报重复定位信息:"+gisPos.getRptTime());
 				return;
 			}
 		}
+
+		//如果是正确时间或者能纠正的时间，接收定位
+		if(! correctGpsTime(nextHour, gisPos)){
+			return;
+		}
 		//设置接收时间
 		gisPos.setServerTime(sysTime);
-		//如果是正确时间或者能纠正的时间，接收定位
-		if(correctGpsTime(sysTime, nextHour, gisPos)){
-			//如果是有效定位
-			if(LonLatUtil.isValidLocation(gisPos.getLon(), gisPos.getLat())){
-				//行政区域
-				String zCode = DistrictUtil.getCityZcode(gisPos.getLon(), gisPos.getLat());
-				gisPos.setzCode(zCode);
-			}else{//无效定位，取最近有效定位
-				if(preGps!=null){//已经有最近的有效定位
-					/**
-					 * 暂时不采用有效定位
-					 */
-					gisPos.setLon(preGps.getLon());
-					gisPos.setLat(preGps.getLat());
-					gisPos.setzCode(preGps.getzCode());
-				}
+		//如果是有效定位
+		if(LonLatUtil.isValidLocation(gisPos.getLon(), gisPos.getLat())){
+			//行政区域
+			String zCode = DistrictUtil.getCityZcode(gisPos.getLon(), gisPos.getLat());
+			gisPos.setzCode(zCode);
+		}else{//无效定位，取最近有效定位
+			if(preGps!=null){//已经有最近的有效定位
+				/**
+				 * 暂时不采用有效定位
+				 */
+				gisPos.setLon(preGps.getLon());
+				gisPos.setLat(preGps.getLat());
+				gisPos.setzCode(preGps.getzCode());
 			}
-			
-			//更新行政区域
-			DcGpsCache.updateDcRgAreaHis(preGps,gisPos);
-			//更新最后定位
-			DcGpsCache.updateLastGps(tmnCode, gisPos);
-			
-			//增量定位信息
-			DcGpsCache.gpsAddCache.add(gisPos);
-			
-			MqMsg mqMsg = new MqMsg(tmnCode, "WQ", 0, "GPS","RPT");
-			mqMsg.setData(gisPos);
-			WqJoinMqService.addMsg(mqMsg);
-		}else{//不能纠正的定位，丢弃掉，不处理
 		}
+		
+		//更新行政区域
+		DcGpsCache.updateDcRgAreaHis(preGps,gisPos);
+		//更新最后定位
+		DcGpsCache.updateLastGps(tmnCode, gisPos);
+		
+		//增量定位信息
+		DcGpsCache.gpsAddCache.add(gisPos);
+		
+		MqMsg mqMsg = new MqMsg(tmnCode, "WQ", 0, "GPS","RPT");
+		mqMsg.setData(gisPos);
+		WqJoinMqService.addMsg(mqMsg);
 	}
-
 }

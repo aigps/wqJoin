@@ -74,7 +74,6 @@ public class GpsDataDao {
 	public void saveDcCmdTrace(Queue<DcCmdTrace> queue)throws Exception{
 		if(queue!=null && !queue.isEmpty()){
 			try {
-				getSqlMapClient().startTransaction();
 				getSqlMapClient().startBatch();
 				DcCmdTrace dcCmdTrace = null;
 				while((dcCmdTrace = queue.poll()) != null){
@@ -84,8 +83,6 @@ public class GpsDataDao {
 			} catch (Exception e) {
 				throw e;
 			}finally{
-				getSqlMapClient().commitTransaction();
-				getSqlMapClient().endTransaction();
 			}
 		}
 	}
@@ -143,7 +140,6 @@ public class GpsDataDao {
 	public  void saveGpsReal(Collection<GisPosition> list)throws Exception{
 		if(list!=null && list.size()>0){
 			try {
-				getSqlMapClient().startTransaction();
 				getSqlMapClient().startBatch();
 				for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 					try {
@@ -156,12 +152,8 @@ public class GpsDataDao {
 				getSqlMapClient().executeBatch();
 			}catch (Exception e) {
 				log.error(e.getMessage(), e);
-			}finally{
-				getSqlMapClient().commitTransaction();
-				getSqlMapClient().endTransaction();
 			}
 			try {
-				getSqlMapClient().startTransaction();
 				getSqlMapClient().startBatch();
 				for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 					try {
@@ -174,9 +166,6 @@ public class GpsDataDao {
 				getSqlMapClient().executeBatch();
 			} catch (Exception e) {
 				log.error(e.getMessage(), e);
-			}finally{
-				getSqlMapClient().commitTransaction();
-				getSqlMapClient().endTransaction();
 			}
 		}
 	}
@@ -213,7 +202,6 @@ public class GpsDataDao {
 	public  void saveDcRgAreaHis(Queue<DcRgAreaHis> queue)throws Exception{
 		if(queue!=null && !queue.isEmpty()){
 			try {
-				getSqlMapClient().startTransaction();
 				getSqlMapClient().startBatch();
 				DcRgAreaHis dcRgAreaHis = null;
 				while((dcRgAreaHis = queue.poll())!=null){
@@ -226,15 +214,13 @@ public class GpsDataDao {
 						dcRgAreaHis.setEndTime(DateUtil.converDateFormat(endTime, DateUtil.YMDHMS, DateUtil.YMD_HMS));
 					}
 					getSqlMapClient().insert("DC_RG_AREA_HIS.insert", dcRgAreaHis);
-					dcRgAreaHis.setStartTime(startTime);
-					dcRgAreaHis.setEndTime(endTime);
+//					dcRgAreaHis.setStartTime(startTime);
+//					dcRgAreaHis.setEndTime(endTime);
 				}
 				getSqlMapClient().executeBatch();
-				getSqlMapClient().commitTransaction();
 			} catch (Exception e) {
 				log.error(e.getMessage(), e);
 			}finally{
-				getSqlMapClient().endTransaction();
 			}
 		}
 	}

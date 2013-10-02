@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.aigps.wq.DcGpsCache;
 import org.aigps.wq.entity.GisPosition;
@@ -27,23 +28,21 @@ import com.sunleads.dc.GeoCache;
 public class ParseGpsLocDescJob implements Job {
 	private static final Log log = LogFactory.getLog(ParseGpsLocDescJob.class);
 	public static final String ID="ParseGpsLocDescJob";
-	private static boolean isRunning = false;//同一个时间点，只允许一个job跑数
+	private static AtomicBoolean isRunning = new AtomicBoolean();//同一个时间点，只允许一个job跑数
 	
 	private static BasicThreadFactory tfactory = new BasicThreadFactory.Builder().namingPattern("parseGpsLoc-pool-%d").daemon(true).build();
 	private static ThreadPoolExecutor pool = new ThreadPoolExecutor(15, 15, 30, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(500000),tfactory);
 	private static Set<String> runSet = Collections.newSetFromMap(new ConcurrentHashMap<String,Boolean>());
 
-	@SuppressWarnings("unchecked")
 	public void execute(JobExecutionContext context) throws JobExecutionException {
-		if(isRunning==false){//如果当前job没有运行，则触发
-			isRunning = true;
+		if(isRunning.compareAndSet(false, true)){//如果当前job没有运行，则触发
 			try {
 				execute();
 			} catch (Throwable e) {
 				log.error("",e);
 			}
 			finally{
-				isRunning = false;
+				isRunning.set(false);;
 			}
 		}
 	}
@@ -61,7 +60,7 @@ public class ParseGpsLocDescJob implements Job {
 						if(StringUtils.isBlank(geo)) {
 							return;
 						}
-						GisPosition newLoc = newVhcLocDesc(gps, geo);
+						GisPosition newLoc = setNewLoc(gps, geo);
 						DcGpsCache.setVhcLocDesc(gps.getTmnKey(), newLoc);
 					} catch (Throwable e) {
 						log.error(e.getMessage());
@@ -80,18 +79,18 @@ public class ParseGpsLocDescJob implements Job {
 			if(lng<=0 || lat<=0 || lng>180 || lat>60){
 				return false;
 			}
-			GisPosition loc = DcGpsCache.getVhcLocDesc(gps.getTmnKey());
-			if(loc == null) {
+			GisPosition preLoc = DcGpsCache.getVhcLocDesc(gps.getTmnKey());
+			if(preLoc == null) {
 				return true;
 			}
-			if (lng==loc.getLon() && lat==loc.getLat()) {
+			if (lng==preLoc.getLon() && lat==preLoc.getLat()) {
 				return false;
 			}
-			if (loc.getRptTime().compareToIgnoreCase( gps.getRptTime()) >=0) {// 补报定位，不解析
+			if (preLoc.getRptTime().compareToIgnoreCase( gps.getRptTime()) >=0) {// 补报定位，不解析
 				return false;
 			}
 			
-			int[] prevXY = MapTileUtil.getXY(loc.getLon(),loc.getLat());
+			int[] prevXY = MapTileUtil.getXY(preLoc.getLon(),preLoc.getLat());
 			int[] nowXY = MapTileUtil.getXY(lng,lat);
 			
 			//在同一个地图瓦片上，不进行解析
@@ -105,7 +104,7 @@ public class ParseGpsLocDescJob implements Job {
 		}
 	}
 
-	private static GisPosition newVhcLocDesc(GisPosition gps, String geo) throws Exception {
+	private static GisPosition setNewLoc(GisPosition gps, String geo) throws Exception {
 		gps.setLocDesc(geo);
 		return gps;
 	}
