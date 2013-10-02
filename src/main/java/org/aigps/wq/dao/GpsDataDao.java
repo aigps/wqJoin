@@ -36,6 +36,9 @@ public class GpsDataDao {
 	private JdbcTemplate jdbcTemplate ;
 	
 	
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
 	
 	public JdbcTemplate getJdbcTemplate() {
 		return jdbcTemplate;
@@ -49,10 +52,6 @@ public class GpsDataDao {
 	
 	public void setSqlMapClient(SqlMapClient sqlMapClient) {
 		this.sqlMapClient = sqlMapClient;
-	}
-
-	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-		this.jdbcTemplate = jdbcTemplate;
 	}
 	
 	/**
