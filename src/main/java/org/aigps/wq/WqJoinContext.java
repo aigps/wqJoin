@@ -3,7 +3,7 @@ package org.aigps.wq;
 import org.aigps.wq.join.WqJoinHttpService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.gps.netty.netty4.server.HttpServer;
+import org.gps.netty4.server.HttpServer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

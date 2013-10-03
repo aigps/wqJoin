@@ -388,9 +388,7 @@ public class RuleCache implements ApplicationContextAware{
 			}
 		}
 	}
-	
-	
-	
+
 	
 	/**
 	 * 初始化规则数据

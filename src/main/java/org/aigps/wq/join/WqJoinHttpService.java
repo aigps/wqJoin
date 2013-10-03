@@ -3,27 +3,26 @@ package org.aigps.wq.join;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.HttpContent;
-import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.multipart.DefaultHttpDataFactory;
 import io.netty.handler.codec.http.multipart.DiskAttribute;
 import io.netty.handler.codec.http.multipart.DiskFileUpload;
 import io.netty.handler.codec.http.multipart.HttpDataFactory;
-import io.netty.handler.codec.http.multipart.HttpPostRequestDecoder;
 import io.netty.util.CharsetUtil;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.aigps.wq.service.FormAnalyse;
+
 import org.aigps.wq.service.GpsService;
 import org.aigps.wq.service.RspService;
 import org.aigps.wq.service.SmsService;
 import org.aigps.wq.service.SttsRptService;
-import org.aigps.wq.xmlmodel.Picture;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.gps.netty.netty4.server.http.IHttpService;
+import org.gps.netty4.server.http.IHttpService;
 import org.springframework.stereotype.Component;
+
 import com.thoughtworks.xstream.XStream;
 
 /**
