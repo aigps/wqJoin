@@ -9,7 +9,7 @@ import org.apache.commons.logging.LogFactory;
 
 
 public class HandleCallRoll extends IHandler{
-	private static final Log log = LogFactory.getLog("HandleCallRoll");
+	private static final Log log = LogFactory.getLog(HandleCallRoll.class);
 
 	public static String CMD = "40";
 	private static IHandler handler = new HandleCallRoll();

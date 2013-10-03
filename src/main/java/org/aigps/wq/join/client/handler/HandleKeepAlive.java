@@ -9,7 +9,7 @@ import org.apache.commons.logging.LogFactory;
 
 
 public class HandleKeepAlive extends IHandler{
-	private static final Log log = LogFactory.getLog("HandleKeepAlive");
+	private static final Log log = LogFactory.getLog(HandleKeepAlive.class);
 
 	public static String CMD = "30";
 	private static IHandler handler = new HandleKeepAlive();

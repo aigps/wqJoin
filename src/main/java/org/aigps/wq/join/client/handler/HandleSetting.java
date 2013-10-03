@@ -9,7 +9,7 @@ import org.apache.commons.logging.LogFactory;
 
 
 public class HandleSetting extends IHandler{
-	private static final Log log = LogFactory.getLog("HandleSetting");
+	private static final Log log = LogFactory.getLog(HandleSetting.class);
 
 	public static String CMD = "20";
 	private static IHandler handler = new HandleSetting();

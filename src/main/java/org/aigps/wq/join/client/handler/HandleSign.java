@@ -8,7 +8,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public class HandleSign extends IHandler{
-	private static final Log log = LogFactory.getLog("HandleSign");
+	private static final Log log = LogFactory.getLog(HandleSign.class);
 	
 	public static String CMD = "60";
 	private static IHandler handler = new HandleSign();

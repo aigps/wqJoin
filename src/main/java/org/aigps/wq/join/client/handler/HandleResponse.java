@@ -8,7 +8,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public class HandleResponse extends IHandler{
-	private static final Log log = LogFactory.getLog("HandleResponse");
+	private static final Log log = LogFactory.getLog(HandleResponse.class);
 	
 	public static String CMD = "00";
 	private static IHandler handler = new HandleResponse();

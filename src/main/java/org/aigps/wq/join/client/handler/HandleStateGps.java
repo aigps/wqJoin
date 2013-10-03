@@ -8,7 +8,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public class HandleStateGps extends IHandler{
-	private static final Log log = LogFactory.getLog("HandleStateGps");
+	private static final Log log = LogFactory.getLog(HandleStateGps.class);
 	
 	public static String CMD = "72";
 	private static IHandler handler = new HandleStateGps();

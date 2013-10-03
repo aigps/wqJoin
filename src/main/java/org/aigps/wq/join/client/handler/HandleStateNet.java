@@ -8,7 +8,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public class HandleStateNet extends IHandler{
-	private static final Log log = LogFactory.getLog("HandleStateNet");
+	private static final Log log = LogFactory.getLog(HandleStateNet.class);
 	
 	public static String CMD = "71";
 	private static IHandler handler = new HandleStateNet();

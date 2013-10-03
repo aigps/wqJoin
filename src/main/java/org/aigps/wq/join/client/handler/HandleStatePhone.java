@@ -8,7 +8,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public class HandleStatePhone extends IHandler{
-	private static final Log log = LogFactory.getLog("HandleStatePhone");
+	private static final Log log = LogFactory.getLog(HandleStatePhone.class);
 	
 	public static String CMD = "70";
 	private static IHandler handler = new HandleStatePhone();

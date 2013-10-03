@@ -8,7 +8,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public class HandleActive extends IHandler{
-	private static final Log log = LogFactory.getLog("HandleActive");
+	private static final Log log = LogFactory.getLog(HandleActive.class);
 	
 	public static String CMD = "10";
 	private static IHandler handler = new HandleActive();

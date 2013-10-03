@@ -9,7 +9,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public abstract class IHandler {
-	private static final Log log = LogFactory.getLog("IHandler");
+	private static final Log log = LogFactory.getLog(IHandler.class);
 
 	//接收到手机发来的消息
 	public abstract void receive(Channel channel, String[] msg);
