@@ -136,7 +136,7 @@
 		</dependency>
 		<dependency>
 		 	 <groupId>com.cmp</groupId>
-		   	 <artifactId>gps-map</artifactId>
+		   	 <artifactId>gps-map</artifactId> 
 		    <version>0.0.1-SNAPSHOT</version>
 	 	</dependency>
 		<dependency>
