@@ -3,7 +3,6 @@ package org.aigps.wq.join;
 import java.util.Observable;
 import java.util.Observer;
 
-import org.aigps.wq.ClassIdMap;
 import org.aigps.wq.SmsClient;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -32,7 +31,7 @@ public class WqReceiveServerMsgHandler implements Observer {
 				String phone = "";
 				String[] params = null;
 				String mobileType = params[0];
-				String classId = ClassIdMap.getClassId(mobileType);
+				String classId = "";
 				
 				if("LCSNow".equalsIgnoreCase(cmdType)){//单次定位
 					SmsClient.sendSms(classId, phone, "01", "1", params[1], "0", "#0",params[2]);
