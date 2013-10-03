@@ -26,7 +26,7 @@ import org.apache.commons.logging.LogFactory;
  */
 @SuppressWarnings("unused")
 public class ServerDecoder extends ByteToMessageDecoder{
-	private static final Log log = LogFactory.getLog("PhoneDecoder");
+	private static final Log log = LogFactory.getLog(ServerDecoder.class);
 	
 	private static char SPLIT_CHART = '&';
 	
